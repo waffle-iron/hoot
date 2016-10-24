@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
 import styles from '../styles/MenuBar.scss'
+import { auth } from '../firebase'
 
 export const MenuBar = ({ loggedIn }) => {
   return (
@@ -39,7 +40,7 @@ const LoginItems = ({ loggedIn }) => {
 
 function mapStateToProps (state) {
   return {
-    loggedIn: state.login.loggedIn
+    loggedIn: auth.currentUser
   }
 }
 

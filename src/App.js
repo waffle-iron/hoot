@@ -7,6 +7,7 @@ import Wrapper from './components/Wrapper'
 import LoginDialog from './components/LoginDialog'
 import Tour from './components/Tour'
 import Dashboard from './components/Dashboard'
+import Profile from './components/Profile'
 
 import { auth } from './firebase'
 
@@ -39,6 +40,7 @@ export default ({ store, history }) => {
           <Route path='/signup' component={Login(true)} />
           <Route path='/tour' component={Tour} onEnter={ensureAuth(false)} />
           <Route path='/dashboard' component={Dashboard} onEnter={ensureAuth(true)} />
+          <Route path='/profile' component={Profile} onEnter={ensureAuth(true)} />
         </Route>
       </Router>
     </Provider>

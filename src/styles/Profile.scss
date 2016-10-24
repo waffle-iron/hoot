@@ -1,0 +1,80 @@
+.lead {
+  font-size: 4em;
+}
+
+.smallLead {
+  margin-top: 1em;
+  font-size: 2em;
+}
+
+.form {
+  margin-top: 2em;
+
+  div {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px;
+  }
+
+  div.section {
+    border: solid 5px black;
+    margin: 20px 20px 0 0;
+    height: 200px;
+    vertical-align: top;
+  }
+
+  div input {
+    //border: 5px solid black;
+    outline: none;
+    margin: 5px 0;
+    font-size: 1.5em;
+    border: none;
+    width: 100%;
+    border-bottom: 5px solid black;
+    font-family: "proxima-nova";
+    font-weight: bold;
+  }
+
+  div.small {
+    width: 100px;
+  }
+
+  div.medium {
+    width: 250px;
+  }
+
+  div.large {
+    width: 500px;
+  }
+
+  button {
+    outline: none;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: rgba(0,0,0,0);
+    border: 5px solid black;
+    font-family: "proxima-nova";
+    font-size: 1.5em;
+    font-weight: bold;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 1.5em;
+    font-family: "proxima-nova";
+    font-weight: bold;
+    border: none;
+    outline: none;
+    background-color: rgba(0,0,0,0);
+  }
+}
