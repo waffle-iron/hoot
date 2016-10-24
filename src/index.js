@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 import App from './App'
 import * as reducers from './reducers'
 import { auth } from './firebase'
-import { login } from './actions/login'
+import { resume } from './actions/login'
 
 const mount = document.getElementById('mount')
 

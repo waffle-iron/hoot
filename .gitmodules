@@ -1,0 +1,3 @@
+[submodule "collegedata"]
+	path = collegedata
+	url = git@github.com:collegedata/collegedata.git
