@@ -1,0 +1,43 @@
+.root {
+  width: 400px;
+  height: 600px;
+  display: inline-block;
+  border: 5px solid black;
+  padding: 50px;
+  text-align: left;
+}
+
+.header {
+  font-size: 2em;
+  margin: 0.5em 0;
+}
+
+.form {
+  input {
+    //border: 5px solid black;
+    outline: none;
+    margin: 5px 0;
+    font-size: 1.5em;
+    width: 100%;
+    border: none;
+    border-bottom: 5px solid black;
+    font-family: "proxima-nova";
+    font-weight: bold;
+  }
+
+  button {
+    outline: none;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: rgba(0,0,0,0);
+    border: 5px solid black;
+    font-family: "proxima-nova";
+    font-size: 1.5em;
+    font-weight: bold;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}

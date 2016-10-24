@@ -1,0 +1,38 @@
+.root {
+  width: 100%;
+  padding: 20px;
+  // border-bottom: 5px solid black;
+  height: 60px;
+  position: fixed;
+  top: 0; left: 0;
+  background-color: white;
+}
+
+.left {
+  display: inline-block;
+  float: left;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.right {
+  display: inline-block;
+  float: right;
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-family: "proxima-nova";
+    font-size: 2em;
+    font-weight: bold;
+    margin-right: 10px;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}

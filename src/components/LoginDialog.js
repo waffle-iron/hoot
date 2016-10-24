@@ -2,35 +2,46 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as actions from '../actions/login'
+import * as styles from '../styles/LoginDialog.scss'
 
-export const LoginDialog = ({ login, loginError }) => {
+export const LoginDialog = ({ login, loginError, isSignup, signup }) => {
   return (
-    <div>
-      <form onSubmit={(e) => {
-        console.log(1)
+    <div className={styles.root}>
+      <h2 className={styles.header}>{ isSignup ? 'sign up' : 'login' }</h2>
+      <form className={styles.form} onSubmit={(e) => {
         e.preventDefault()
-        console.log('we submittin boyz')
         // TODO this, but better
-        login(e.target.children[0].value, e.target.children[1].value)
+        const f = [e.target.children[2].value, e.target.children[6].value]
+        console.log(f)
+        isSignup ? signup(...f) : login(...f)
       }}>
-        <input type='text' />
-        <input type='password' />
-        <button type='submit'>Submit</button>
+        <br />
+        <h3>email</h3>
+        <input type='text' /><br /><br />
+        <h3>password</h3>
+        <input type='password' /><br /><br />
+        <button type='submit'>submit</button>
       </form>
-      { loginError ? <h1>{loginError.toString()}</h1> : null }
+      { loginError
+        ? <h2 style={{ marginTop: '20px', color: 'red' }}>
+            {loginError.toString()}
+          </h2>
+        : null }
     </div>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
   return {
-    loginError: state.login.error
+    loginError: state.login.error,
+    signup: ownProps.signup
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    login: (email, password) => dispatch(actions.login(email, password))
+    login: (email, password) => dispatch(actions.login(email, password)),
+    signup: (email, password) => dispatch(actions.signup(email, password))
   }
 }
 
