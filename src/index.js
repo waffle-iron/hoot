@@ -8,6 +8,8 @@ import thunk from 'redux-thunk'
 
 import App from './App'
 import * as reducers from './reducers'
+import { auth } from './firebase'
+import { login } from './actions/login'
 
 const mount = document.getElementById('mount')
 
@@ -28,6 +30,10 @@ const store = createStore(
 window.store = store
 
 const history = syncHistoryWithStore(browserHistory, store)
+
+if (auth.currentUser) {
+  store.dispatch(resume())
+}
 
 render(
   <AppContainer>

@@ -20,10 +20,19 @@ const LeftLogo = () => {
 }
 
 const LoginItems = ({ loggedIn }) => {
-  return loggedIn ? null : (
+  return loggedIn ? (
     <div className={styles.right}>
-      <Link to='/login'>login</Link>
-      <Link to='/signup'>sign up</Link>
+      <Link to='/dashboard' activeClassName={styles.active}>dashboard</Link>
+      <Link to='/profile' activeClassName={styles.active}>profile</Link>
+      <Link to='/colleges' activeClassName={styles.active}>colleges</Link>
+      <Link to='/essays' activeClassName={styles.active}>essays</Link>
+      <Link to='/scholarships' activeClassName={styles.active}>scholarships</Link>
+      <Link to='/signout' activeClassName={styles.active}>sign out</Link>
+    </div>
+  ) : (
+    <div className={styles.right}>
+      <Link to='/login' activeClassName={styles.active}>login</Link>
+      <Link to='/signup' activeClassName={styles.active}>sign up</Link>
     </div>
   )
 }

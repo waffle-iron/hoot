@@ -12,7 +12,6 @@ export const LoginDialog = ({ login, loginError, isSignup, signup }) => {
         e.preventDefault()
         // TODO this, but better
         const f = [e.target.children[2].value, e.target.children[6].value]
-        console.log(f)
         isSignup ? signup(...f) : login(...f)
       }}>
         <br />

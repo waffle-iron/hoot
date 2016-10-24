@@ -1,5 +1,6 @@
 import prefix from '../prefix'
 import { auth } from '../firebase'
+import { push } from 'react-router-redux'
 
 const actions = prefix('login')([
   'BEGIN_LOGIN',
@@ -13,7 +14,8 @@ let timeout
 // so we don't call LOGIN_SUCCESS a shitton we only set it up here
 auth.onAuthStateChanged((user) => {
   if (user) {
-    dispatcher({ type: actions.LOGIN_SUCCESS, payload: user })
+    dispatcher({ type: actions.LOGIN_SUCCESS })
+    dispatcher(push('/dashboard'))
   }
 })
 
@@ -44,5 +46,11 @@ export function signup (email, password) {
         dispatch({ type: actions.CLEAR_ERROR })
       }, 5000)
     })
+  }
+}
+
+export function resume () {
+  return {
+    type: actions.LOGIN_SUCCESS
   }
 }

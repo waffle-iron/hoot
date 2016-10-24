@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 import styles from '../styles/Landing.scss'
+import Button from './Button'
 
 export default () => {
   return (
@@ -16,9 +17,9 @@ export default () => {
         built by stressed college applicants, for stressed college applicants.
         no fancy gloss, no daily emails. and entirely free, without advertisements.
       </h3>
-      <Link className={styles.button} to='/tour'>take a tour.</Link>
+      <Button to='/tour'>take a tour.</Button>
       <h3 className={styles.content}>or,</h3>
-      <Link className={styles.button} to='/signup'>sign up now.</Link>
+      <Button to='/signup'>sign up now.</Button>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 // since it's the same type of page
 import styles from '../styles/Landing.scss'
 import { StressText } from './Landing'
+import Button from './Button'
 
 export default () => {
   return (
@@ -40,7 +41,7 @@ export default () => {
       <h1 className={styles.lead}>
         <StressText content="don't subject yourself to a thousand google searches." />
       </h1>
-      <Link className={styles.button} to='/signup'>sign up now.</Link>
+      <Button to='/signup'>sign up now.</Button>
     </div>
   )
 }

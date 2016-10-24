@@ -28,9 +28,14 @@
     font-family: "proxima-nova";
     font-size: 2em;
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 20px;
 
     &:hover {
+      background-color: black;
+      color: white;
+    }
+
+    &.active {
       background-color: black;
       color: white;
     }
