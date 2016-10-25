@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router'
 
 // just reuse the landing styles
 // since it's the same type of page
 import styles from '../styles/Landing.scss'
-import { StressText } from './Landing'
+import StressText from './StressText'
 import Button from './Button'
 
 export default () => {

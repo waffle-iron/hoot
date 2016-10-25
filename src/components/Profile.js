@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { StressText } from './Landing'
+import StressText from './StressText'
 import downArrow from '../assets/downArrow.png'
 import * as styles from '../styles/Profile.scss'
 

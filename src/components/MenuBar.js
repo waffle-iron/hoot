@@ -1,46 +1,53 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import classNames from 'classnames'
 
 import styles from '../styles/MenuBar.scss'
 import { auth } from '../firebase'
 
-export const MenuBar = ({ loggedIn }) => {
+export const MenuBar = ({ loggedIn, colors, colorful }) => {
   return (
-    <div className={styles.root}>
-      <LeftLogo />
-      <LoginItems loggedIn={loggedIn} />
+    <div
+      className={classNames(styles.root, { [styles.inverse]: colorful })}
+      style={{ backgroundColor: colorful ? colors[0] : null }}>
+      <LeftLogo inverse={colorful} />
+      <LoginItems loggedIn={loggedIn} inverse={colorful} colors={colors} />
     </div>
   )
 }
 
-const LeftLogo = () => {
+const LeftLogo = ({ inverse }) => {
   return (
-    <div className={styles.left}><Link to='/'><h1>hoot</h1></Link></div>
+    <div className={classNames(styles.left, { [styles.inverse]: inverse })}>
+      <Link to='/'><h1>hoot</h1></Link>
+    </div>
   )
 }
 
-const LoginItems = ({ loggedIn }) => {
+const LoginItems = ({ loggedIn, inverse }) => {
   return loggedIn ? (
-    <div className={styles.right}>
-      <Link to='/dashboard' activeClassName={styles.active}>dashboard</Link>
-      <Link to='/profile' activeClassName={styles.active}>profile</Link>
-      <Link to='/colleges' activeClassName={styles.active}>colleges</Link>
-      <Link to='/essays' activeClassName={styles.active}>essays</Link>
-      <Link to='/scholarships' activeClassName={styles.active}>scholarships</Link>
-      <Link to='/signout' activeClassName={styles.active}>sign out</Link>
+    <div className={classNames(styles.right, { [styles.inverse]: inverse })}>
+      <Link to='/dashboard'>dashboard</Link>
+      <Link to='/profile'>profile</Link>
+      <Link to='/colleges'>colleges</Link>
+      <Link to='/essays'>essays</Link>
+      <Link to='/scholarships'>scholarships</Link>
+      <Link to='/signout'>sign out</Link>
     </div>
   ) : (
     <div className={styles.right}>
-      <Link to='/login' activeClassName={styles.active}>login</Link>
-      <Link to='/signup' activeClassName={styles.active}>sign up</Link>
+      <Link to='/login'>login</Link>
+      <Link to='/signup'>sign up</Link>
     </div>
   )
 }
 
 function mapStateToProps (state) {
   return {
-    loggedIn: auth.currentUser
+    loggedIn: auth.currentUser,
+    colors: state.colors.colors,
+    colorful: state.colors.colorful
   }
 }
 

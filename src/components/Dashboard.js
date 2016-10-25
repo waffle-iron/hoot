@@ -1,6 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import { StressText } from './Landing'
+import StressText from './StressText'
 import * as styles from '../styles/Dashboard.scss'
 import Button from './Button'
 
@@ -40,7 +41,7 @@ const nouns = [
 const randomAdjective = () => adjectives[Math.floor(Math.random() * adjectives.length)]
 const randomNoun = () => nouns[Math.floor(Math.random() * nouns.length)]
 
-export default () => {
+export const Dashboard = () => {
   return (
     <div>
       <h2 className={styles.lead}>
@@ -65,3 +66,17 @@ export default () => {
     </div>
   )
 }
+
+function mapStateToProps (state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

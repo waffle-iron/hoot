@@ -1,11 +1,15 @@
 .root {
   width: 100%;
-  padding: 20px;
+  padding: 10px 20px;
   // border-bottom: 5px solid black;
-  height: 60px;
+  // height: 60px;
   position: fixed;
   top: 0; left: 0;
   background-color: white;
+
+  &.inverse {
+    background-color: black;
+  }
 }
 
 .left {
@@ -15,6 +19,10 @@
   a {
     text-decoration: none;
     color: black;
+  }
+
+  &.inverse a {
+    color: white;
   }
 }
 
@@ -34,10 +42,16 @@
       background-color: black;
       color: white;
     }
+  }
 
-    &.active {
-      background-color: black;
+  &.inverse {
+    a {
       color: white;
+
+      &:hover {
+        background-color: white;
+        color: black;
+      }
     }
   }
 }

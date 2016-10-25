@@ -8,6 +8,8 @@ import LoginDialog from './components/LoginDialog'
 import Tour from './components/Tour'
 import Dashboard from './components/Dashboard'
 import Profile from './components/Profile'
+import Colleges from './components/Colleges'
+import CollegeInfo from './components/CollegeInfo'
 
 import { auth } from './firebase'
 
@@ -35,12 +37,18 @@ export default ({ store, history }) => {
     <Provider store={store}>
       <Router history={history}>
         <Route path='/' component={Wrapper}>
-          <IndexRoute component={Landing} onEnter={ensureAuth(false)} />
-          <Route path='/login' component={Login(false)} />
-          <Route path='/signup' component={Login(true)} />
-          <Route path='/tour' component={Tour} onEnter={ensureAuth(false)} />
-          <Route path='/dashboard' component={Dashboard} onEnter={ensureAuth(true)} />
-          <Route path='/profile' component={Profile} onEnter={ensureAuth(true)} />
+          <Route path='/' onEnter={ensureAuth(false)}>
+            <IndexRoute component={Landing} />
+            <Route path='/login' component={Login(false)} />
+            <Route path='/signup' component={Login(true)} />
+          </Route>
+          <Route path='/' onEnter={ensureAuth(true)}>
+            <Route path='/tour' component={Tour} />
+            <Route path='/dashboard' component={Dashboard} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/colleges' component={Colleges} />
+            <Route path='/college/:id' component={CollegeInfo} />
+          </Route>
         </Route>
       </Router>
     </Provider>

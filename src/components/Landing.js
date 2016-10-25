@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router'
 
 import styles from '../styles/Landing.scss'
 import Button from './Button'
+import StressText from './StressText'
 
 export default () => {
   return (
@@ -21,16 +21,5 @@ export default () => {
       <h3 className={styles.content}>or,</h3>
       <Button to='/signup'>sign up now.</Button>
     </div>
-  )
-}
-
-// exported so that the tour page can also use it
-export const StressText = ({ content }) => {
-  return (
-    <span>
-      {content.split(' ').map((child, i) => (
-        <span key={`stress${content}${i}`} className={styles.stressText}>{child}</span>
-      ))}
-    </span>
   )
 }
