@@ -13,7 +13,7 @@ const CollegeEntry = ({ data, onClick }) => {
       className={styles.entry}
       style={{ backgroundColor: data.colorPrimary }}
       onClick={(e) => { onClick(data.id) }}>
-      <h2>{data.name}</h2>
+      <h2>{data.name.toLowerCase()}</h2>
     </div>
   )
 }
@@ -39,7 +39,7 @@ export const Colleges = ({ goToCollege }) => {
       </h3>
       <SearchBar />
       {colleges.slice(0, 10).map(c => (
-        <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }}/>
+        <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
       ))}
     </div>
   )

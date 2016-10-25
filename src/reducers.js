@@ -1,5 +1,5 @@
 import loginActions from './actions/login'
-import colorActions from './actions/color'
+import colorsActions from './actions/colors'
 
 export function login (state = { loggedIn: false, attemptingLogin: false, error: null }, action) {
   switch (action.type) {
@@ -13,12 +13,12 @@ export function login (state = { loggedIn: false, attemptingLogin: false, error:
 
 export function colors (state = { colorful: false, colors: ['#000000'] }, action) {
   switch (action.type) {
-    case colorActions.SET_COLORFUL: return { ...state, colorful: true }
-    case colorActions.UNSET_COLORFUL: return { ...state, colorful: false }
-    case colorActions.ADD_COLOR: return { ...state, colors: [ ...state.colors, action.payload ] }
-    case colorActions.REMOVE_COLOR: return { ...state, colors: state.colors.filter(c => c !== action.payload) }
-    case colorActions.SET_COLORS: return { ...state, colors: [ ...action.payload ] }
-    case colorActions.DEFAULT_COLORS: return { colorful: false, colors: ['#000000'] }
+    case colorsActions.SET_COLORFUL: return { ...state, colorful: true }
+    case colorsActions.UNSET_COLORFUL: return { ...state, colorful: false }
+    case colorsActions.ADD_COLOR: return { ...state, colors: [ ...state.colors, action.payload ] }
+    case colorsActions.REMOVE_COLOR: return { ...state, colors: state.colors.filter(c => c !== action.payload) }
+    case colorsActions.SET_COLORS: return { ...state, colors: [ ...action.payload ] }
+    case colorsActions.DEFAULT_COLORS: return { colorful: false, colors: ['#000000'] }
     default: return state
   }
 }

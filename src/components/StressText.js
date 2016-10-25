@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import * as styles from '../styles/StressText.scss'
 
-export const StressText = ({ content, color }) => {
+export const StressText = ({ content, color, ...props }) => {
   return (
-    <span>
+    <span {...props}>
       {content.split(' ').map((child, i) => (
         <span
           key={`stress${content}${i}`}
@@ -22,4 +22,10 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps)(StressText)
+function mapDispatchToProps (dispatch) {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StressText)

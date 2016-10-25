@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { cloneElement } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classNames from 'classnames'
@@ -25,15 +25,35 @@ const LeftLogo = ({ inverse }) => {
   )
 }
 
-const LoginItems = ({ loggedIn, inverse }) => {
+const LoginItems = ({ loggedIn, inverse, colors }) => {
   return loggedIn ? (
     <div className={classNames(styles.right, { [styles.inverse]: inverse })}>
-      <Link to='/dashboard'>dashboard</Link>
-      <Link to='/profile'>profile</Link>
-      <Link to='/colleges'>colleges</Link>
-      <Link to='/essays'>essays</Link>
-      <Link to='/scholarships'>scholarships</Link>
-      <Link to='/signout'>sign out</Link>
+      {[
+        <Link to='/dashboard'>dashboard</Link>,
+        <Link to='/profile'>profile</Link>,
+        <Link to='/colleges'>colleges</Link>,
+        <Link to='/essays'>essays</Link>,
+        <Link to='/scholarships'>scholarships</Link>,
+        <Link to='/signout'>sign out</Link>
+      ].map((element) =>
+        cloneElement(element, {
+          key: `linkTo${element.props.to}`,
+          onMouseOver: (e) => {
+            if (inverse) {
+              e.target.style.cssText =
+                `color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            }
+          },
+          onMouseOut: (e) => {
+            if (inverse) {
+              e.target.style.cssText = ''
+            }
+          },
+          onClick: (e) => {
+            e.target.style.cssText = ''
+          }
+        })
+      )}
     </div>
   ) : (
     <div className={styles.right}>

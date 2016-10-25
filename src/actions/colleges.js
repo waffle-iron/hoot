@@ -5,3 +5,9 @@ export function goToCollege (id) {
     dispatch(push(`/college/${id}`))
   }
 }
+
+export function addCollege () {
+  return (dispatch) => {
+    //
+  }
+}

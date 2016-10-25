@@ -1,0 +1,27 @@
+.lead {
+  font-size: 4em;
+  margin-top: 1.5em;
+}
+
+.content {
+  font-size: 2em;
+}
+
+.ranking {
+  font-size: 4em;
+}
+
+.section {
+  width: 100%;
+  padding: 20px;
+  border: 5px solid black;
+  margin: 10px 0 0 0;
+  display: inline-block;
+}
+
+.column {
+  width: calc(50% - 10px);
+  margin: 0 10px 0 0;
+  display: inline-block;
+  vertical-align: top;
+}

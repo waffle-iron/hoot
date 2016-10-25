@@ -11,9 +11,12 @@ import Profile from './components/Profile'
 import Colleges from './components/Colleges'
 import CollegeInfo from './components/CollegeInfo'
 
-import { auth } from './firebase'
+import { auth, database } from './firebase'
+import { get } from './colleges'
+import colorsActions from './actions/colors'
 
 require('./globals.scss')
+require('font-awesome-webpack')
 
 // wrapper for login dialog
 const Login = (signup) => ({ ...props }) => {
@@ -33,21 +36,66 @@ const ensureAuth = (state, redirect) => (nextState, replace) => {
 }
 
 export default ({ store, history }) => {
+  const setColors = (nextState) => {
+    store.dispatch({
+      type: colorsActions.SET_COLORS,
+      payload: [get(nextState.params.id).colorPrimary]
+    })
+
+    store.dispatch({ type: colorsActions.SET_COLORFUL })
+  }
+
+  const resetColors = (nextState) => {
+    const setBlack = () => {
+      store.dispatch({
+        type: colorsActions.SET_COLORS,
+        payload: ['#000000']
+      })
+    }
+
+    if (auth.currentUser) {
+      database.ref('/users/' + auth.currentUser.uid).once('value').then((s) => {
+        if (s.val()) {
+          let colleges = s.val().colleges
+          if (colleges && colleges.length > 0) {
+            store.dispatch({
+              type: colorsActions.SET_COLORS,
+              payload: colleges.map((college) => get(college).colorPrimary)
+            })
+          } else {
+            setBlack()
+          }
+        } else {
+          setBlack()
+        }
+      })
+    } else {
+      store.dispatch({
+        type: colorsActions.SET_COLORS,
+        payload: ['#000000']
+      })
+    }
+
+    store.dispatch({ type: colorsActions.UNSET_COLORFUL })
+  }
+
   return (
     <Provider store={store}>
       <Router history={history}>
         <Route path='/' component={Wrapper}>
+          <IndexRoute component={Landing} onEnter={ensureAuth(false)} />
           <Route path='/' onEnter={ensureAuth(false)}>
-            <IndexRoute component={Landing} />
             <Route path='/login' component={Login(false)} />
             <Route path='/signup' component={Login(true)} />
           </Route>
           <Route path='/' onEnter={ensureAuth(true)}>
-            <Route path='/tour' component={Tour} />
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/colleges' component={Colleges} />
-            <Route path='/college/:id' component={CollegeInfo} />
+            <Route path='/' onEnter={resetColors}>
+              <Route path='/tour' component={Tour} />
+              <Route path='/dashboard' component={Dashboard} />
+              <Route path='/profile' component={Profile} />
+              <Route path='/colleges' component={Colleges} />
+            </Route>
+            <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           </Route>
         </Route>
       </Router>
