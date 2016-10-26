@@ -1,6 +1,7 @@
 import prefix from '../prefix'
 import { auth } from '../firebase'
 import { push } from 'react-router-redux'
+import { fetchColors } from './colors'
 
 const actions = prefix('login')([
   'BEGIN_LOGIN',
@@ -15,6 +16,7 @@ let timeout
 auth.onAuthStateChanged((user) => {
   if (user) {
     dispatcher({ type: actions.LOGIN_SUCCESS })
+    dispatcher(fetchColors())
     dispatcher(push('/dashboard'))
   }
 })

@@ -22,3 +22,9 @@ export function colors (state = { colorful: false, colors: ['#000000'] }, action
     default: return state
   }
 }
+
+export function colleges (state = [], action) {
+  switch (action.type) {
+    default: return state
+  }
+}

@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux'
+import { auth, database } from '../firebase'
 
 export function goToCollege (id) {
   return (dispatch) => {
@@ -6,8 +7,10 @@ export function goToCollege (id) {
   }
 }
 
-export function addCollege () {
+export function addCollege (id) {
   return (dispatch) => {
-    //
+    const colleges = database.ref(`users/${auth.currentUser.uid}/colleges`)
+    const newCollege = colleges.push()
+    newCollege.set({ id })
   }
 }

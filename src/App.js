@@ -11,9 +11,9 @@ import Profile from './components/Profile'
 import Colleges from './components/Colleges'
 import CollegeInfo from './components/CollegeInfo'
 
-import { auth, database } from './firebase'
+import { auth } from './firebase'
 import { get } from './colleges'
-import colorsActions from './actions/colors'
+import colorsActions, { fetchColors } from './actions/colors'
 
 require('./globals.scss')
 require('font-awesome-webpack')
@@ -46,36 +46,7 @@ export default ({ store, history }) => {
   }
 
   const resetColors = (nextState) => {
-    const setBlack = () => {
-      store.dispatch({
-        type: colorsActions.SET_COLORS,
-        payload: ['#000000']
-      })
-    }
-
-    if (auth.currentUser) {
-      database.ref('/users/' + auth.currentUser.uid).once('value').then((s) => {
-        if (s.val()) {
-          let colleges = s.val().colleges
-          if (colleges && colleges.length > 0) {
-            store.dispatch({
-              type: colorsActions.SET_COLORS,
-              payload: colleges.map((college) => get(college).colorPrimary)
-            })
-          } else {
-            setBlack()
-          }
-        } else {
-          setBlack()
-        }
-      })
-    } else {
-      store.dispatch({
-        type: colorsActions.SET_COLORS,
-        payload: ['#000000']
-      })
-    }
-
+    store.dispatch(fetchColors())
     store.dispatch({ type: colorsActions.UNSET_COLORFUL })
   }
 

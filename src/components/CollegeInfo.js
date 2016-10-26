@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { get } from '../colleges'
 import StressText from './StressText'
 import * as styles from '../styles/CollegeInfo.scss'
 import Button from './Button'
+import * as actions from '../actions/colleges'
 
 const getDifficulty = (num) => {
   if (num <= 5) {
@@ -58,15 +60,15 @@ const OutOfTenGraph = ({ num, icon, iconEmpty, style }) => {
   )
 }
 
-export default ({ params }) => {
-  const college = get(params.id)
+export const CollegeInfo = ({ id, addCollege }) => {
+  const college = get(id)
   return (
     <div>
       <div>
         <h2 className={styles.lead}>
           <StressText content={college.name.toLowerCase()} />
         </h2>
-        <Button>add college</Button>
+        <Button onClick={(e) => { addCollege(id) }}>add college</Button>
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
@@ -111,3 +113,17 @@ export default ({ params }) => {
     </div>
   )
 }
+
+function mapStateToProps (state, ownProps) {
+  return {
+    id: ownProps.params.id
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    addCollege: (_) => dispatch(actions.addCollege(_))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollegeInfo)
