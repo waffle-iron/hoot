@@ -6,6 +6,7 @@ import StressText from './StressText'
 import * as styles from '../styles/CollegeInfo.scss'
 import Button from './Button'
 import * as actions from '../actions/colleges'
+import downArrow from '../assets/downArrow.png'
 
 const getDifficulty = (num) => {
   if (num <= 5) {
@@ -54,13 +55,27 @@ const constructAppString = (college) => {
 const OutOfTenGraph = ({ num, icon, iconEmpty, style }) => {
   return (
     <div style={{ fontSize: '3em', display: 'inline-block', ...style }}>
-      {(new Array(num)).fill(null).map((i) => <i className={`fa fa-${icon}`} style={{ color: 'black', paddingRight: '5px' }} />)}
-      {iconEmpty ? (new Array(10 - num)).fill(null).map((i) => <i className={`fa fa-${iconEmpty}`} style={{ color: 'black', paddingRight: '5px' }} />) : null}
+      {(new Array(num)).fill(null).map((i, x) => <i key={`${icon}${x}`} className={`fa fa-${icon}`} style={{ color: 'black', paddingRight: '5px' }} />)}
+      {iconEmpty ? (new Array(10 - num)).fill(null).map((i, x) => <i key={`${icon}-${x}`} className={`fa fa-${iconEmpty}`} style={{ color: 'black', paddingRight: '5px' }} />) : null}
     </div>
   )
 }
 
-export const CollegeInfo = ({ id, addCollege }) => {
+const PercentileBar = ({ max, left, right, marker }) => {
+  return (
+    <div>
+      <div style={{ position: 'relative', height: '16px', width: '100%' }}>
+        { marker ? <div style={{ position: 'absolute', top: '6px', height: '16px', width: '16px', left: `calc(${Math.round(marker / max * 100)}% - 4px)`, background: `url(${downArrow}) 0% / 100% no-repeat #fff` }} /> : null }
+      </div>
+      <div style={{ width: '100%', height: '40px', backgroundColor: 'white', position: 'relative', border: '5px solid black', margin: '10px 0' }}>
+        <div style={{ position: 'absolute', top: '0', height: '100%', left: `${left ? Math.round(left / max * 100) : 0}%`, width: `${Math.round((right - left) / max * 100)}%`, backgroundColor: 'black' }} />
+        { marker ? <div style={{ position: 'absolute', top: '0', height: '100%', left: `${Math.round(marker / max * 100)}%`, width: '15px', borderLeft: '5px solid black', borderRight: '5px solid black', backgroundColor: 'white' }} /> : null }
+      </div>
+    </div>
+  )
+}
+
+export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }) => {
   const college = get(id)
   return (
     <div>
@@ -68,7 +83,7 @@ export const CollegeInfo = ({ id, addCollege }) => {
         <h2 className={styles.lead}>
           <StressText content={college.name.toLowerCase()} />
         </h2>
-        <Button onClick={(e) => { addCollege(id) }}>add college</Button>
+        <Button onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>{ isAdded ? 'remove college' : 'add college' }</Button>
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
@@ -110,19 +125,35 @@ export const CollegeInfo = ({ id, addCollege }) => {
           <h3 className={styles.content}>{constructAppString(college)}</h3>
         </div>
       </div>
+      <div className={styles.column}>
+        <div className={styles.section}>
+          <h3 className={styles.content}>sat percentile</h3>
+          <PercentileBar max={1600} left={college.sat25thPercentile} right={college.sat75thPercentile} marker={sat} />
+          <h3>50% of accepted students score between {college.sat25thPercentile} and {college.sat75thPercentile} on the sat.</h3>
+        </div>
+        <div className={styles.section}>
+          <h3 className={styles.content}>act percentile</h3>
+          <PercentileBar max={36} left={college.act25thPercentile} right={college.act75thPercentile} marker={act} />
+          <h3>50% of accepted students score between {college.act25thPercentile} and {college.act75thPercentile} on the sat.</h3>
+        </div>
+      </div>
     </div>
   )
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    id: ownProps.params.id
+    id: ownProps.params.id,
+    isAdded: state.colleges.list.includes(ownProps.params.id),
+    sat: state.profile.items.satComposite,
+    act: state.profile.items.actComposite
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    addCollege: (_) => dispatch(actions.addCollege(_))
+    addCollege: (_) => dispatch(actions.addCollege(_)),
+    removeCollege: (_) => dispatch(actions.removeCollege(_))
   }
 }
 

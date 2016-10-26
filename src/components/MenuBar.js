@@ -36,21 +36,28 @@ const LoginItems = ({ loggedIn, inverse, colors }) => {
         <Link to='/scholarships'>scholarships</Link>,
         <Link to='/signout'>sign out</Link>
       ].map((element) =>
+        // what a fucking hack
         cloneElement(element, {
           key: `linkTo${element.props.to}`,
           onMouseOver: (e) => {
             if (inverse) {
               e.target.style.cssText =
                 `color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            } else {
+              e.target.style.cssText =
+                `background-color: ${colors[Math.floor(Math.random() * colors.length)]}`
             }
           },
           onMouseOut: (e) => {
-            if (inverse) {
-              e.target.style.cssText = ''
-            }
+            e.target.style.cssText = ''
           },
           onClick: (e) => {
-            e.target.style.cssText = ''
+            if (inverse) {
+              e.target.style.cssText = ''
+            } else {
+              e.target.style.cssText =
+                `background-color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            }
           }
         })
       )}

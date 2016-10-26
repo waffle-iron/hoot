@@ -6,6 +6,7 @@
   position: fixed;
   top: 0; left: 0;
   background-color: white;
+  transition: background-color 0.1s ease-in;
 
   &.inverse {
     background-color: black;
@@ -37,6 +38,7 @@
     font-size: 2em;
     font-weight: bold;
     margin-right: 20px;
+    transition: background-color 0.1s ease-in, color 0.1s ease-in;
 
     &:hover {
       background-color: black;

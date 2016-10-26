@@ -5,7 +5,7 @@ import * as styles from '../styles/Wrapper.scss'
 
 export default ({ children }) => {
   return (
-    <div>
+    <div className={styles.root}>
       <MenuBar />
       <div className={styles.child}>{children}</div>
     </div>

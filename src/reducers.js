@@ -1,5 +1,7 @@
 import loginActions from './actions/login'
 import colorsActions from './actions/colors'
+import collegesActions from './actions/colleges'
+import profileActions from './actions/profile'
 
 export function login (state = { loggedIn: false, attemptingLogin: false, error: null }, action) {
   switch (action.type) {
@@ -23,8 +25,19 @@ export function colors (state = { colorful: false, colors: ['#000000'] }, action
   }
 }
 
-export function colleges (state = [], action) {
+export function colleges (state = { list: [], fetched: false }, action) {
   switch (action.type) {
+    case collegesActions.SET_COLLEGES: return { list: [ ...action.payload ], fetched: true }
+    case collegesActions.ADD_COLLEGE: return { ...state, list: [ ...state.list, action.payload ] }
+    case collegesActions.REMOVE_COLLEGE: return { ...state, list: state.list.filter(id => id !== action.payload) }
+    default: return state
+  }
+}
+
+export function profile (state = { items: {}, fetched: false }, action) {
+  switch (action.type) {
+    case profileActions.INIT_ITEMS: return { items: { ...action.payload }, fetched: true }
+    case profileActions.SET_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
     default: return state
   }
 }

@@ -1,5 +1,4 @@
 const directory = require('../collegedata/directory.json')
-console.log(directory)
 
 export default Object.keys(directory)
   .map((college) => directory[college])

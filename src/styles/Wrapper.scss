@@ -1,4 +1,11 @@
+.root {
+  text-align: center;
+}
+
 .child {
   width: 100%;
+  max-width: 1600px;
+  display: inline-block;
+  text-align: left;
   padding: 80px 10% 100px 10%;
 }

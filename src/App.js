@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
+import { push } from 'react-router-redux'
 
 import Landing from './components/Landing'
 import Wrapper from './components/Wrapper'
@@ -14,6 +15,7 @@ import CollegeInfo from './components/CollegeInfo'
 import { auth } from './firebase'
 import { get } from './colleges'
 import colorsActions, { fetchColors } from './actions/colors'
+import { resume } from './actions/login'
 
 require('./globals.scss')
 require('font-awesome-webpack')
@@ -36,6 +38,17 @@ const ensureAuth = (state, redirect) => (nextState, replace) => {
 }
 
 export default ({ store, history }) => {
+  const resumeAuth = (nextState) => {
+    if (auth.currentUser) {
+      store.dispatch(resume())
+    } else {
+      auth.onAuthStateChanged((user) => {
+        store.dispatch(resume())
+        store.dispatch(push('/dashboard'))
+      })
+    }
+  }
+
   const setColors = (nextState) => {
     store.dispatch({
       type: colorsActions.SET_COLORS,
@@ -53,7 +66,7 @@ export default ({ store, history }) => {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <Route path='/' component={Wrapper}>
+        <Route path='/' component={Wrapper} onEnter={resumeAuth}>
           <IndexRoute component={Landing} onEnter={ensureAuth(false)} />
           <Route path='/' onEnter={ensureAuth(false)}>
             <Route path='/login' component={Login(false)} />
