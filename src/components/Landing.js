@@ -12,8 +12,8 @@ export default () => {
       </h1>
       <h3 className={styles.content}>
         get rid of the noise and just use hoot.
-        choose your colleges, write your essays, search for scholarships, and
-        talk to actual college counselors without the headache.
+        choose your colleges and write your essays, without the headache and
+        stress and yelling and all that not fun stuff.
         built by stressed college applicants, for stressed college applicants.
         no fancy gloss, no daily emails. and entirely free, without advertisements.
       </h3>

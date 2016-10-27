@@ -12,6 +12,7 @@ import Profile from './components/Profile'
 import Colleges from './components/Colleges'
 import CollegeInfo from './components/CollegeInfo'
 import Essays from './components/Essays'
+import Essay from './components/Essay'
 
 import { auth } from './firebase'
 import { get } from './colleges'
@@ -79,7 +80,9 @@ export default ({ store, history }) => {
               <Route path='/dashboard' component={Dashboard} />
               <Route path='/profile' component={Profile} />
               <Route path='/colleges' component={Colleges} />
-              <Route path='/essays' component={Essays} />
+              <Route path='/apps' component={Essays}>
+                <Route path=':id' component={Essay} />
+              </Route>
             </Route>
             <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           </Route>

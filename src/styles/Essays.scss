@@ -6,3 +6,38 @@
   margin-top: 1em;
   font-size: 2em;
 }
+
+.leftBar {
+  margin: 20px 0;
+  width: 120px;
+  display: inline-block;
+  float: left;
+}
+
+.leftBarItem {
+  height: 120px;
+  font-size: 4em;
+  margin: 10px 0;
+  color: white;
+  padding: 20px;
+  transition: width 0.2s ease-in;
+  width: 120px;
+  position: relative;
+
+  &:hover {
+    width: 240px !important;
+  }
+
+  h2 {
+    position: absolute;
+    right: -5px;
+    bottom: -30px;
+  }
+}
+
+.right {
+  display: inline-block;
+  float: right;
+  width: calc(100% - 140px);
+  margin: 20px 0 20px 20px;
+}

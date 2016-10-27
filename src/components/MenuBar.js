@@ -32,8 +32,7 @@ const LoginItems = ({ loggedIn, inverse, colors }) => {
         <Link to='/dashboard'>dashboard</Link>,
         <Link to='/profile'>profile</Link>,
         <Link to='/colleges'>colleges</Link>,
-        <Link to='/essays'>essays</Link>,
-        <Link to='/scholarships'>scholarships</Link>,
+        <Link to='/apps'>applications</Link>,
         <Link to='/signout'>sign out</Link>
       ].map((element) =>
         // what a fucking hack
