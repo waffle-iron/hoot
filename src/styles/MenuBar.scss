@@ -30,6 +30,7 @@
 .right {
   display: inline-block;
   float: right;
+  transition: opacity 0.2s ease-in;
 
   a {
     text-decoration: none;
@@ -55,5 +56,16 @@
         color: black;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .root {
+    height: 60px;
+    overflow: hidden;
+  }
+
+  .right {
+    opacity: 0;
   }
 }

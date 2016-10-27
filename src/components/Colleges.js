@@ -29,6 +29,7 @@ export const CollegeEntry = ({ data, onClick }) => {
   )
 }
 
+/*
 const SearchBar = () => {
   return (
     <form className={styles.search}>
@@ -37,8 +38,9 @@ const SearchBar = () => {
     </form>
   )
 }
+*/
 
-export const Colleges = ({ goToCollege }) => {
+export const Colleges = ({ goToCollege, addedColleges }) => {
   return (
     <div>
       <h2 className={styles.lead}>
@@ -48,8 +50,8 @@ export const Colleges = ({ goToCollege }) => {
         start your college search here. type below to search for colleges
         that fit your situation. bring some color to your future.
       </h3>
-      <SearchBar />
-      {colleges.slice(0, 10).map(c => (
+      {/* <SearchBar /> */}
+      {colleges.filter(({ id }) => !addedColleges.includes(id.toString())).map(c => (
         <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
       ))}
     </div>
@@ -58,7 +60,7 @@ export const Colleges = ({ goToCollege }) => {
 
 function mapStateToProps (state) {
   return {
-
+    addedColleges: state.colleges.list
   }
 }
 

@@ -52,6 +52,22 @@ const constructAppString = (college) => {
   }
 }
 
+const constructDecisionPlanString = ({ application }) => {
+  let r = `this college takes ${application.decisionPlans.length} decision plans: `
+  const mappedTypes = {
+    'R': 'regular',
+    'REA': 'restrictive early action',
+    'EA': 'early action',
+    'ED': 'early decision',
+    'ED2': 'early decision 2',
+    'T': 'transfer'
+  }
+  r += application.decisionPlans
+    .map((plan, index) => (index === application.decisionPlans.length - 1) ? 'and ' + mappedTypes[plan.type] : mappedTypes[plan.type])
+    .join(application.decisionPlans.length > 2 ? ', ' : ' ') + '.'
+  return r
+}
+
 const OutOfTenGraph = ({ num, icon, iconEmpty, style }) => {
   return (
     <div style={{ fontSize: '3em', display: 'inline-block', ...style }}>
@@ -67,7 +83,7 @@ const PercentileBar = ({ max, left, right, marker }) => {
       <div style={{ position: 'relative', height: '16px', width: '100%' }}>
         { marker ? <div style={{ position: 'absolute', top: '6px', height: '16px', width: '16px', left: `calc(${Math.round(marker / max * 100)}% - 4px)`, background: `url(${downArrow}) 0% / 100% no-repeat #fff` }} /> : null }
       </div>
-      <div style={{ width: '100%', height: '40px', backgroundColor: 'white', position: 'relative', border: '5px solid black', margin: '10px 0' }}>
+      <div style={{ width: '100%', height: '40px', backgroundColor: 'white', position: 'relative', border: '5px solid black', margin: '10px 0', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '0', height: '100%', left: `${left ? Math.round(left / max * 100) : 0}%`, width: `${Math.round((right - left) / max * 100)}%`, backgroundColor: 'black' }} />
         { marker ? <div style={{ position: 'absolute', top: '0', height: '100%', left: `${Math.round(marker / max * 100)}%`, width: '15px', borderLeft: '5px solid black', borderRight: '5px solid black', backgroundColor: 'white' }} /> : null }
       </div>
@@ -84,6 +100,7 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
           <StressText content={college.name.toLowerCase()} />
         </h2>
         <Button onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>{ isAdded ? 'remove college' : 'add college' }</Button>
+        { isAdded ? <Button style={{ marginLeft: '10px' }}>get started</Button> : null }
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
@@ -111,6 +128,7 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
           <h2 className={styles.ranking}>#{college.forbesRanking}{college.forbesRanking === 1 ? 'st' : college.forbesRanking === 2 ? 'nd' : college.forbesRanking === 3 ? 'rd' : 'th' }</h2>
           <h3>ranked college or university in the united states, according to forbes</h3>
         </div>
+        {/* TODO ethnicity section? */}
       </div>
       <h2 className={styles.lead}>getting in</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
@@ -124,6 +142,9 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
         <div className={styles.section}>
           <h3 className={styles.content}>{constructAppString(college)}</h3>
         </div>
+        <div className={styles.section}>
+          <h3 className={styles.content}>{constructDecisionPlanString(college)}</h3>
+        </div>
       </div>
       <div className={styles.column}>
         <div className={styles.section}>
@@ -135,6 +156,11 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
           <h3 className={styles.content}>act percentile</h3>
           <PercentileBar max={36} left={college.act25thPercentile} right={college.act75thPercentile} marker={act} />
           <h3>50% of accepted students score between {college.act25thPercentile} and {college.act75thPercentile} on the sat.</h3>
+        </div>
+        <div className={styles.section}>
+          <h3 className={styles.content}>
+            {(college.application.commonEssay ? 1 : 0) + (college.application.additionalEssay ? 1 : 0)} essay{(college.application.commonEssay ? 1 : 0) + (college.application.additionalEssay ? 1 : 0) === 1 ? '' : 's'} {college.application.questions.length > 0 ? `and ${college.application.questions.length} question${college.application.questions.length > 1 ? 's' : ''}` : null } are required for consideration.
+          </h3>
         </div>
       </div>
     </div>
