@@ -2,6 +2,7 @@ import loginActions from './actions/login'
 import colorsActions from './actions/colors'
 import collegesActions from './actions/colleges'
 import profileActions from './actions/profile'
+import appsActions from './actions/apps'
 
 export function login (state = { loggedIn: false, attemptingLogin: false, error: null }, action) {
   switch (action.type) {
@@ -38,6 +39,16 @@ export function profile (state = { items: {}, fetched: false }, action) {
   switch (action.type) {
     case profileActions.INIT_ITEMS: return { items: { ...action.payload }, fetched: true }
     case profileActions.SET_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
+    default: return state
+  }
+}
+
+export function apps (state = { items: {}, fetched: false }, action) {
+  switch (action.type) {
+    case appsActions.INIT_ITEMS: return { items: { ...action.payload }, fetched: true }
+    case appsActions.ADD_APP: return { ...state, items: { ...state.items, [action.payload.id]: { ...action.payload } } }
+    case appsActions.REMOVE_APP: return { ...state, items: { ...state.items, [action.payload.id]: null } }
+    case appsActions.SET_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
     default: return state
   }
 }

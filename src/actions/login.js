@@ -3,6 +3,7 @@ import { auth } from '../firebase'
 import { fetchColors } from './colors'
 import { fetchColleges } from './colleges'
 import { fetchProfile } from './profile'
+import { fetchApps } from './apps'
 
 const actions = prefix('login')([
   'BEGIN_LOGIN',
@@ -57,4 +58,5 @@ export const resume = () => (dispatch) => {
   dispatch(fetchColors())
   dispatch(fetchColleges())
   dispatch(fetchProfile())
+  dispatch(fetchApps())
 }

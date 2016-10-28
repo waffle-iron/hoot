@@ -5,6 +5,9 @@
 .smallLead {
   margin-top: 1em;
   font-size: 2em;
+  overflow: hidden;
+  height: 80px;
+  transition: height 0.2s ease-in;
 }
 
 .leftBar {
@@ -12,6 +15,7 @@
   width: 120px;
   display: inline-block;
   float: left;
+  transition: width 0.5s ease-in;
 }
 
 .leftBarItem {
@@ -20,12 +24,17 @@
   margin: 10px 0;
   color: white;
   padding: 20px;
-  transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in, height 0.1s ease-in;
   width: 120px;
   position: relative;
+  overflow: hidden;
 
-  &:hover {
-    width: 240px !important;
+  &.unExpanded:hover {
+    width: 120px !important;
+  }
+
+  &.expanded:hover {
+    height: 140px;
   }
 
   h2 {
@@ -33,11 +42,27 @@
     right: -5px;
     bottom: -30px;
   }
+
+  div {
+    position: absolute;
+    left: 5px;
+    bottom: -5px;
+    font-size: 0.75em;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    width: 1000px;
+  }
 }
 
 .right {
-  display: inline-block;
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
   width: calc(100% - 140px);
   margin: 20px 0 20px 20px;
+  background-color: #fff;
+}
+
+.rightParent {
+  position: relative;
 }
