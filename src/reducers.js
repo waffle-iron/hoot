@@ -48,7 +48,7 @@ export function apps (state = { items: {}, fetched: false }, action) {
     case appsActions.INIT_ITEMS: return { items: { ...action.payload }, fetched: true }
     case appsActions.ADD_APP: return { ...state, items: { ...state.items, [action.payload.id]: { ...action.payload } } }
     case appsActions.REMOVE_APP: return { ...state, items: { ...state.items, [action.payload.id]: null } }
-    case appsActions.SET_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
+    case appsActions.UPDATE_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
     default: return state
   }
 }

@@ -29,6 +29,11 @@
   position: relative;
   overflow: hidden;
 
+  &.unExpanded > div {
+    width: 1000px;
+    transition: opacity 0.2s ease-in;
+  }
+
   &.unExpanded:hover {
     width: 120px !important;
   }
@@ -39,8 +44,8 @@
 
   h2 {
     position: absolute;
-    right: -5px;
-    bottom: -30px;
+    right: -7px;
+    bottom: -17px;
   }
 
   div {
@@ -48,9 +53,9 @@
     left: 5px;
     bottom: -5px;
     font-size: 0.75em;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s ease-in 0.5s;
     pointer-events: none;
-    width: 1000px;
+    width: 80%;
   }
 }
 

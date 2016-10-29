@@ -80,9 +80,10 @@ export default ({ store, history }) => {
               <Route path='/dashboard' component={Dashboard} />
               <Route path='/profile' component={Profile} />
               <Route path='/colleges' component={Colleges} />
-              <Route path='/apps' component={Essays}>
-                <Route path=':id' component={Essay} />
-              </Route>
+            </Route>
+            <Route path='/apps' component={Essays}>
+              <IndexRoute onEnter={resetColors} />
+              <Route path=':id' component={Essay} onEnter={setColors} />
             </Route>
             <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           </Route>

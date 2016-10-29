@@ -3,15 +3,31 @@ import { auth, database } from '../firebase'
 
 const actions = prefix('apps')([
   'INIT_ITEMS',
-  'SET_ITEMS',
+  'UPDATE_ITEMS',
   'ADD_APP',
   'REMOVE_APP'
 ])
 
-export const addApp = (id) => (dispatch) => {
+export const addApp = (id) => {
+  console.log(id)
+  return (dispatch) => {
+    const ref = database.ref(`users/${auth.currentUser.uid}/apps/${id}`)
+    ref.set({ id }, () => {
+      dispatch({ type: actions.ADD_APP, payload: { id } })
+    })
+  }
+}
+export const setAppPlan = (id, plan) => (dispatch, getState) => {
   const ref = database.ref(`users/${auth.currentUser.uid}/apps/${id}`)
-  ref.set({ id }, () => {
-    dispatch({ type: actions.ADD_APP, payload: { id } })
+  ref.set({ ...getState().apps.items[id], plan }, () => {
+    dispatch({ type: actions.UPDATE_ITEMS, payload: { [id]: { ...getState().apps.items[id], plan } } })
+  })
+}
+
+export const removeAppPlan = (id) => (dispatch, getState) => {
+  const ref = database.ref(`users/${auth.currentUser.uid}/apps/${id}`)
+  ref.set({ ...getState().apps.items[id], plan: null }, () => {
+    dispatch({ type: actions.UPDATE_ITEMS, payload: { [id]: { ...getState().apps.items[id], plan: null } } })
   })
 }
 

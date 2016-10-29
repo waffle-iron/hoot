@@ -100,7 +100,7 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
           <StressText content={college.name.toLowerCase()} />
         </h2>
         <Button onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>{ isAdded ? 'remove college' : 'add college' }</Button>
-        { isAdded ? <Button style={{ marginLeft: '10px' }} to={`/essays/${id}`} >get started</Button> : null }
+        { isAdded ? <Button style={{ marginLeft: '10px' }} to={`/apps/${id}`} >get started</Button> : null }
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>

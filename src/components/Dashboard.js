@@ -45,7 +45,13 @@ const nouns = [
 const randomAdjective = () => adjectives[Math.floor(Math.random() * adjectives.length)]
 const randomNoun = () => nouns[Math.floor(Math.random() * nouns.length)]
 
-export const Dashboard = ({ colleges, navigate, fetched, profileBuilt }) => {
+export const sortDates = (a, b) => {
+  if (!b.plan) return -1
+  if (!a.plan) return 1
+  return 0 - ((new Date(b.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), b.plan.dueDate.month - 1, b.plan.dueDate.day)) - (new Date(a.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), a.plan.dueDate.month - 1, a.plan.dueDate.day)))
+}
+
+export const Dashboard = ({ colleges, navigate, fetched, profileBuilt, apps }) => {
   if (!fetched) {
     return (
       <div>
@@ -69,14 +75,16 @@ export const Dashboard = ({ colleges, navigate, fetched, profileBuilt }) => {
         ) : null
       }
       {
-        colleges.length > 0 ? (
-          <div>
-            <h3 className={styles.label}>
-              here's the list of colleges you were looking at last we talked.
-            </h3>
-            {colleges.map(college => get(college)).map(data => <CollegeEntry data={data} key={data.name} onClick={(id) => { navigate(`/college/${id}`) }} />)}
-          </div>
-        ) : (
+        colleges.length > 0
+          ? colleges.length < 10 ? (
+            <div>
+              <h3 className={styles.label}>
+                you have {colleges.length} colleges added. try these on for size.
+              </h3>
+              <Button to='/colleges'>click to make your wish list longer.</Button>
+            </div>
+          ) : null
+        : (
           <div>
             <h3 className={styles.label}>
               you should start looking at some colleges. it looks like you haven't added any to your list.
@@ -85,14 +93,20 @@ export const Dashboard = ({ colleges, navigate, fetched, profileBuilt }) => {
           </div>
         )
       }
-      <h3 className={styles.label}>
-        you've got some essays you need to work on. here's what's coming up.
-      </h3>
-      {/* essay list here */}
-      <h3 className={styles.label}>
-        i've got some scholarships you could also look at, if you're into that.
-      </h3>
-      {/* scholarship list here */}
+      {
+        apps ? (
+          <div>
+            <h3 className={styles.label}>
+              you've got some essays you need to work on. here's what's coming up.
+            </h3>
+            {
+              Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
+                <h3>your {get(app.id).name} application {app.plan ? ` due ${app.plan.dueDate.month}/${app.plan.dueDate.day}` : null}</h3>
+              ))
+            }
+          </div>
+        ) : null
+      }
     </div>
   )
 }
@@ -101,7 +115,8 @@ function mapStateToProps (state) {
   return {
     colleges: state.colleges.list,
     fetched: state.colleges.fetched,
-    profileBuilt: Object.keys(state.profile.items).length > 0
+    profileBuilt: Object.keys(state.profile.items).length > 0,
+    apps: state.apps.items
   }
 }
 

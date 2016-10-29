@@ -6,15 +6,18 @@ import classNames from 'classnames'
 import StressText from './StressText'
 import * as styles from '../styles/Essays.scss'
 import { get } from '../colleges'
+import { sortDates } from './Dashboard'
 
-const filterWords = ['of']
+const filterWords = ['of', 'in', 'the', 'City']
 
 const constructAppString = (app) => {
-  let today = new Date()
   if (!app) return 'not started'
   if (!app.plan) return 'deciding on decision plan'
-  if (!app.submitted) return 'working on essays'
-  return `app submitted - decision in ${app.plan.decisionDate.month - today.getMonth() - 1} months, ${app.plan.decisionDate.day - today.getDate()} days`
+  let today = new Date()
+  let dueDate = new Date(app.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.dueDate.month - 1, app.plan.dueDate.day)
+  let decisionDate = new Date(app.plan.decisionDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.decisionDate.month - 1, app.plan.decisionDate.day)
+  if (!app.submitted) return `due in ${Math.round(Math.abs(today.getTime() - dueDate.getTime()) / (24 * 60 * 60 * 1000))} days`
+  return `app submitted - decision in ${Math.round(Math.abs(today.getTime() - decisionDate.getTime()) / (24 * 60 * 60 * 1000))} days`
 }
 
 const LeftCollegeEntry = ({ children, college, style, app, expanded, ...props }) => {
@@ -32,14 +35,28 @@ const LeftCollegeEntry = ({ children, college, style, app, expanded, ...props })
 const LeftCollegeBar = ({ colleges, goToCollege, expanded, active, apps }) => {
   return (
     <div className={styles.leftBar} style={{ width: expanded ? '100%' : null }}>
-      {colleges.map(college => (
+      {Object.keys(apps).map(k => apps[k]).sort(sortDates).map(college => (
+        <LeftCollegeEntry
+          college={college.id.toString()}
+          app={college}
+          style={{ width: expanded ? '100%' : college.id.toString() === active ? '120px' : '60px' }}
+          expanded={expanded}
+          onClick={e => goToCollege(college.id.toString())}>
+          {(get(college.id.toString()).name.split(' ')[1] === 'University' || get(college.id.toString()).name.split(' ')[1] === 'College')
+            ? get(college.id.toString()).name.split(' ')[0].toLowerCase()
+            : get(college.id.toString()).name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
+        </LeftCollegeEntry>
+      ))}
+      {colleges.filter(c => !Object.keys(apps).includes(c)).map(college => (
         <LeftCollegeEntry
           college={college}
-          app={apps[college]}
+          app={null}
           style={{ width: expanded ? '100%' : college === active ? '120px' : '60px' }}
           expanded={expanded}
           onClick={e => goToCollege(college)}>
-          {get(college).name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
+          {(get(college).name.split(' ')[1] === 'University' || get(college).name.split(' ')[1] === 'College')
+            ? get(college).name.split(' ')[0].toLowerCase()
+            : get(college).name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
         </LeftCollegeEntry>
       ))}
     </div>
@@ -50,7 +67,7 @@ export const Essays = ({ colleges, goToCollege, children, params, apps }) => {
   return (
     <div className={styles.root}>
       <h2 className={styles.lead}>
-        <StressText content='putting hand to keyboard' />
+        <StressText content={children ? get(params.id).name.toLowerCase() : 'putting hand to keyboard'} />
       </h2>
       <h3 className={styles.smallLead} style={{ height: children ? '0' : null }}>
         now that you've picked out some colleges to apply to, let's get started
