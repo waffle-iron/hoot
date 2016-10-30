@@ -1,15 +1,17 @@
 import prefix from '../prefix'
-import { auth } from '../firebase'
+import { auth, database } from '../firebase'
 import { fetchColors } from './colors'
-import { fetchColleges } from './colleges'
+import { fetchColleges } from './mycolleges'
 import { fetchProfile } from './profile'
 import { fetchApps } from './apps'
+import { fetchCollegeList, fetchCollege } from './colleges'
 
 const actions = prefix('login')([
   'BEGIN_LOGIN',
   'LOGIN_SUCCESS',
   'LOGIN_FAILURE',
-  'CLEAR_ERROR'
+  'CLEAR_ERROR',
+  'SET_INSTITUTE'
 ])
 
 // let dispatcher = _ => null
@@ -53,10 +55,16 @@ export function signup (email, password) {
 }
 
 export const resume = () => (dispatch) => {
-  console.log('resuming')
   dispatch({ type: actions.LOGIN_SUCCESS })
   dispatch(fetchColors())
   dispatch(fetchColleges())
   dispatch(fetchProfile())
   dispatch(fetchApps())
+  dispatch(fetchCollegeList())
+  database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
+    if (s.val() || s.val() === 0) {
+      dispatch({ type: actions.SET_INSTITUTE, payload: s.val() })
+      dispatch(fetchCollege(s.val()))
+    }
+  })
 }

@@ -3,10 +3,10 @@ import MenuBar from './MenuBar'
 
 import * as styles from '../styles/Wrapper.scss'
 
-export default ({ children }) => {
+export default ({ children, location }) => {
   return (
     <div className={styles.root}>
-      <MenuBar />
+      <MenuBar pathname={location.pathname} />
       <div className={styles.child}>{children}</div>
     </div>
   )

@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { get } from '../colleges'
 import StressText from './StressText'
 import * as styles from '../styles/CollegeInfo.scss'
 import Button from './Button'
-import * as actions from '../actions/colleges'
+import * as actions from '../actions/mycolleges'
 import downArrow from '../assets/downArrow.png'
+import * as collegesActions from '../actions/colleges'
 
 const getDifficulty = (num) => {
   if (num <= 5) {
@@ -30,10 +30,10 @@ const constructAppString = (college) => {
   let r = 'this college uses the '
   let s = ''
   let length = 0
-  if (college.commonApplication) { s += 'common '; length += 1 }
-  if (college.coalitionApplication) { s += 'coalition '; length += 1 }
-  if (college.questbridgeApplication) { s += 'questbridge '; length += 1 }
-  if (college.universalApplication) { s += 'universal '; length += 1 }
+  if (college.acceptsCommon) { s += 'common '; length += 1 }
+  if (college.acceptsCoalition) { s += 'coalition '; length += 1 }
+  if (college.acceptsQuestbridge) { s += 'questbridge '; length += 1 }
+  if (college.acceptsUniversal) { s += 'universal '; length += 1 }
   s = s.slice(0, -1)
   if (length === 0) {
     return 'this college uses their own application.'
@@ -50,22 +50,6 @@ const constructAppString = (college) => {
     s.join(' ')
     return r + s + ' applications.'
   }
-}
-
-const constructDecisionPlanString = ({ application }) => {
-  let r = `this college takes ${application.decisionPlans.length} decision plans: `
-  const mappedTypes = {
-    'R': 'regular',
-    'REA': 'restrictive early action',
-    'EA': 'early action',
-    'ED': 'early decision',
-    'ED2': 'early decision 2',
-    'T': 'transfer'
-  }
-  r += application.decisionPlans
-    .map((plan, index) => (index === application.decisionPlans.length - 1) ? 'and ' + mappedTypes[plan.type] : mappedTypes[plan.type])
-    .join(application.decisionPlans.length > 2 ? ', ' : ' ') + '.'
-  return r
 }
 
 const OutOfTenGraph = ({ num, icon, iconEmpty, style }) => {
@@ -91,8 +75,15 @@ const PercentileBar = ({ max, left, right, marker }) => {
   )
 }
 
-export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }) => {
-  const college = get(id)
+export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeCollege, isAdded, sat, act }) => {
+  if (!college) {
+    fetchCollege(id)
+    return (
+      <div>
+        <h2>hold on i'm getting it</h2>
+      </div>
+    )
+  }
   return (
     <div>
       <div>
@@ -104,25 +95,25 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
-        {college.name.toLowerCase()} is a college based in {college.location.city.toLowerCase()}, {college.location.state.toLowerCase()}.
+        {college.name.toLowerCase()} is a college based in {college.city.toLowerCase()}, {college.state.toLowerCase()}.
       </h3>
       <div className={styles.column}>
         <div className={styles.section}>
           <h3 className={styles.content}>total population</h3>
-          <OutOfTenGraph num={Math.round(college.totalPopulation / 2500)} icon='user' />
-          <h3>{college.totalPopulation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} students</h3>
+          <OutOfTenGraph num={Math.round(college.population / 2500)} icon='user' />
+          <h3>{college.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} students</h3>
         </div>
         <div className={styles.section}>
           <h3 className={styles.content}>cost</h3>
-          <OutOfTenGraph num={Math.round(college.totalAnnualCost / 7000)} icon='usd' />
-          <h3>${college.totalAnnualCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} per year</h3>
+          <OutOfTenGraph num={Math.round(college.averageAnnualCost / 7000)} icon='usd' />
+          <h3>${college.averageAnnualCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} per year</h3>
         </div>
       </div>
       <div className={styles.column}>
         <div className={styles.section}>
           <h3 className={styles.content}>financial aid</h3>
-          <OutOfTenGraph num={Math.round(college.percentFinancialAid * 10)} icon='money' style={{ fontSize: '2em' }} />
-          <h3>{college.percentFinancialAid * 100}% of students get financial aid</h3>
+          <OutOfTenGraph num={Math.round(college.percentFinancialAid / 10)} icon='money' style={{ fontSize: '2em' }} />
+          <h3>{college.percentFinancialAid}% of students get financial aid</h3>
         </div>
         <div className={styles.section}>
           <h2 className={styles.ranking}>#{college.forbesRanking}{college.forbesRanking === 1 ? 'st' : college.forbesRanking === 2 ? 'nd' : college.forbesRanking === 3 ? 'rd' : 'th' }</h2>
@@ -132,19 +123,21 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
       </div>
       <h2 className={styles.lead}>getting in</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>
-        this school is {getDifficulty(Math.round(college.percentAdmitted * 100))} to get into.
+        this school is {getDifficulty(Math.round(college.percentAdmitted))} to get into.
       </h3>
       <div className={styles.column}>
         <div className={styles.section}>
-          <h2 className={styles.ranking}>{Math.round(college.percentAdmitted * 100)}%</h2>
+          <h2 className={styles.ranking}>{Math.round(college.percentAdmitted)}%</h2>
           <h3>percent of applicants are admitted.</h3>
         </div>
         <div className={styles.section}>
           <h3 className={styles.content}>{constructAppString(college)}</h3>
         </div>
+        {/*
         <div className={styles.section}>
           <h3 className={styles.content}>{constructDecisionPlanString(college)}</h3>
         </div>
+        */}
       </div>
       <div className={styles.column}>
         <div className={styles.section}>
@@ -157,11 +150,6 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
           <PercentileBar max={36} left={college.act25thPercentile} right={college.act75thPercentile} marker={act} />
           <h3>50% of accepted students score between {college.act25thPercentile} and {college.act75thPercentile} on the sat.</h3>
         </div>
-        <div className={styles.section}>
-          <h3 className={styles.content}>
-            {(college.application.commonEssay ? 1 : 0) + (college.application.additionalEssay ? 1 : 0)} essay{(college.application.commonEssay ? 1 : 0) + (college.application.additionalEssay ? 1 : 0) === 1 ? '' : 's'} {college.application.questions.length > 0 ? `and ${college.application.questions.length} question${college.application.questions.length > 1 ? 's' : ''}` : null } are required for consideration.
-          </h3>
-        </div>
       </div>
     </div>
   )
@@ -170,7 +158,8 @@ export const CollegeInfo = ({ id, addCollege, removeCollege, isAdded, sat, act }
 function mapStateToProps (state, ownProps) {
   return {
     id: ownProps.params.id,
-    isAdded: state.colleges.list.includes(ownProps.params.id),
+    college: state.colleges[ownProps.params.id],
+    isAdded: state.mycolleges.list.includes(ownProps.params.id),
     sat: state.profile.items.satComposite,
     act: state.profile.items.actComposite
   }
@@ -179,7 +168,8 @@ function mapStateToProps (state, ownProps) {
 function mapDispatchToProps (dispatch) {
   return {
     addCollege: (_) => dispatch(actions.addCollege(_)),
-    removeCollege: (_) => dispatch(actions.removeCollege(_))
+    removeCollege: (_) => dispatch(actions.removeCollege(_)),
+    fetchCollege: (_) => dispatch(collegesActions.fetchCollege(_))
   }
 }
 

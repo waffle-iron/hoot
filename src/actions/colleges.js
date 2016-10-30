@@ -1,42 +1,98 @@
-import { push } from 'react-router-redux'
-
-import { auth, database } from '../firebase'
 import prefix from '../prefix'
+import { database } from '../firebase'
+import colorsActions from './colors'
 
 const actions = prefix('colleges')([
-  'SET_COLLEGES',
-  'ADD_COLLEGE',
-  'REMOVE_COLLEGE'
+  'BEGIN_FETCH_COLLEGE',
+  'FINISH_FETCH_COLLEGE'
 ])
 
-export function goToCollege (id) {
-  return (dispatch) => {
-    dispatch(push(`/college/${id}`))
+export const fetchCollege = (id) => (dispatch, getState, cb) => {
+  if (!id && id !== 0) return // cmon man
+  if (getState().colleges[id]) return // we've already got the college
+  if (getState().colleges[id] === false) return // we're already getting the college
+  dispatch({ type: actions.BEGIN_FETCH_COLLEGE, payload: id })
+  database.ref(`colleges/${id}`).once('value').then(s => {
+    dispatch({ type: actions.FINISH_FETCH_COLLEGE, payload: { [id]: s.val() } })
+    if (cb) cb(s)
+  }).catch(e => {
+    throw e
+  })
+}
+
+export const fetchAllMyColleges = () => (dispatch, getState) => {
+  getState().mycolleges.list.forEach(c => dispatch(fetchCollege(c)))
+}
+
+export const fetchCollegeThenSetColors = (id) => (dispatch, getState) => {
+  if (getState().colleges[id]) {
+    // we already have it
+    const college = getState().colleges[id]
+    dispatch({ type: colorsActions.SET_COLORS, payload: [ college.colorPrimary ] })
+  } else if (getState().colleges[id] === false) {
+    // we're already getting it but we can't attach a listener there so we're just
+    // gonna get it again
+    database.ref(`colleges/${id}`).once('value').then(s => {
+      dispatch({ type: colorsActions.SET_COLORS, payload: [ s.val().colorPrimary ] })
+    })
+  } else {
+    // we haven't got it so we're gonna get it again
+    fetchCollege(id)(dispatch, getState, (s) => {
+      dispatch({ type: colorsActions.SET_COLORS, payload: [ s.val().colorPrimary ] })
+    })
   }
 }
 
-export const addCollege = (id) => (dispatch) => {
-  const colleges = database.ref(`users/${auth.currentUser.uid}/colleges`)
-  const newCollege = colleges.push()
-  newCollege.set({ id })
-  dispatch({ type: actions.ADD_COLLEGE, payload: id })
+export const fetchCollegeList = () => (dispatch) => {
+  dispatch(fetchCollege('list'))
 }
 
-export const removeCollege = (id) => (dispatch) => {
-  database.ref(`users/${auth.currentUser.uid}/colleges`).orderByChild('id').equalTo(id).once('value').then(snapshot => {
-    snapshot.ref.child(Object.keys(snapshot.val())[0]).remove().then(() => {
-      dispatch({ type: actions.REMOVE_COLLEGE, payload: id })
+export const updateCollege = (id, updates) => (dispatch, getState) => {
+  database.ref(`colleges/${id}`).update({
+    ...updates
+  }, () => {
+    dispatch({ type: actions.FINISH_FETCH_COLLEGE, payload: { [id]: { ...getState().colleges[id], ...updates } } })
+  })
+}
+
+export const searchForCollegeByName = (name) => (dispatch, getState) => {
+  database.ref('colleges').orderByChild('name')
+}
+
+export const addDecisionPlan = (id) => (dispatch, getState) => {
+  let newPlan = database.ref(`colleges/${id}/decisionPlans`).push()
+  newPlan.set({ type: 'R' }, () => {
+    dispatch({
+      type: actions.FINISH_FETCH_COLLEGE,
+      payload: { [id]: { ...getState().colleges[id], decisionPlans: { ...getState().colleges[id].decisionPlans, [newPlan.key]: { type: 'R' } } } }
     })
   })
 }
 
-export const fetchColleges = () => (dispatch) => {
-  database.ref(`users/${auth.currentUser.uid}/colleges`).once('value').then(snapshot => {
+export const updateDecisionPlan = (id, key, updates) => (dispatch, getState) => {
+  database.ref(`colleges/${id}/decisionPlans/${key}`).update({ ...updates }, () => {
     dispatch({
-      type: actions.SET_COLLEGES,
-      payload: snapshot.val()
-        ? Object.keys(snapshot.val()).map(k => snapshot.val()[k].id)
-        : []
+      type: actions.FINISH_FETCH_COLLEGE,
+      payload: { [id]: { ...getState().colleges[id], decisionPlans: { ...getState().colleges[id].decisionPlans, [key]: { ...updates } } } }
+    })
+  })
+}
+
+export const addQuestion = (id) => (dispatch, getState) => {
+  let newPlan = database.ref(`colleges/${id}/questions`).push()
+  newPlan.set({ prompt: '' }, () => {
+    dispatch({
+      type: actions.FINISH_FETCH_COLLEGE,
+      payload: { [id]: { ...getState().colleges[id], questions: { ...getState().colleges[id].questions, [newPlan.key]: { prompt: '' } } } }
+    })
+  })
+}
+
+export const updateQuestion = (id, key, updates) => (dispatch, getState) => {
+  database.ref(`colleges/${id}/questions/${key}`).update({ ...updates }, () => {
+    dispatch({
+      type: actions.FINISH_FETCH_COLLEGE,
+      payload: { [id]: { ...getState().colleges[id], questions: { ...getState().colleges[id].questions, [key]: { ...updates } } } }
     })
   })
 }

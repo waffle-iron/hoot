@@ -6,13 +6,13 @@ import classNames from 'classnames'
 import styles from '../styles/MenuBar.scss'
 import { auth } from '../firebase'
 
-export const MenuBar = ({ loggedIn, colors, colorful }) => {
+export const MenuBar = ({ loggedIn, colors, colorful, onInstitute }) => {
   return (
     <div
       className={classNames(styles.root, { [styles.inverse]: colorful })}
       style={{ backgroundColor: colorful ? colors[0] : null }}>
       <LeftLogo inverse={colorful} />
-      <LoginItems loggedIn={loggedIn} inverse={colorful} colors={colors} />
+      <LoginItems loggedIn={loggedIn} inverse={colorful} colors={colors} onInstitute={onInstitute} />
     </div>
   )
 }
@@ -25,7 +25,14 @@ const LeftLogo = ({ inverse }) => {
   )
 }
 
-const LoginItems = ({ loggedIn, inverse, colors }) => {
+const LoginItems = ({ loggedIn, inverse, colors, onInstitute }) => {
+  if (loggedIn && onInstitute) {
+    return (
+      <div className={styles.right}>
+        <Link to='/signout'>sign out</Link>
+      </div>
+    )
+  }
   return loggedIn ? (
     <div className={classNames(styles.right, { [styles.inverse]: inverse })}>
       {[
@@ -69,11 +76,12 @@ const LoginItems = ({ loggedIn, inverse, colors }) => {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
   return {
     loggedIn: auth.currentUser,
     colors: state.colors.colors,
-    colorful: state.colors.colorful
+    colorful: state.colors.colorful,
+    onInstitute: ownProps.pathname === '/instituteDash'
   }
 }
 

@@ -25,7 +25,9 @@ export const LoginDialog = ({ login, loginError, isSignup, signup }) => {
         ? <h2 style={{ marginTop: '20px', color: 'red' }}>
             {loginError.toString()}
           </h2>
-        : null }
+        : null
+      }
+      <h3>institutions: to create an account for your college, please email kyle@hoot.rocks for more information.</h3>
     </div>
   )
 }

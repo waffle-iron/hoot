@@ -1,15 +1,17 @@
 import loginActions from './actions/login'
 import colorsActions from './actions/colors'
-import collegesActions from './actions/colleges'
+import mycollegesActions from './actions/mycolleges'
 import profileActions from './actions/profile'
 import appsActions from './actions/apps'
+import collegesActions from './actions/colleges'
 
-export function login (state = { loggedIn: false, attemptingLogin: false, error: null }, action) {
+export function login (state = { loggedIn: false, attemptingLogin: false, error: null, institute: null }, action) {
   switch (action.type) {
     case loginActions.BEGIN_LOGIN: return { ...state, attemptingLogin: true }
     case loginActions.LOGIN_SUCCESS: return { ...state, attemptingLogin: false, error: null }
     case loginActions.LOGIN_FAILURE: return { ...state, attemptingLogin: false, error: action.payload }
     case loginActions.CLEAR_ERROR: return { ...state, error: null }
+    case loginActions.SET_INSTITUTE: return { ...state, institute: action.payload }
     default: return state
   }
 }
@@ -26,11 +28,11 @@ export function colors (state = { colorful: false, colors: ['#000000'] }, action
   }
 }
 
-export function colleges (state = { list: [], fetched: false }, action) {
+export function mycolleges (state = { list: [], fetched: false }, action) {
   switch (action.type) {
-    case collegesActions.SET_COLLEGES: return { list: [ ...action.payload ], fetched: true }
-    case collegesActions.ADD_COLLEGE: return { ...state, list: [ ...state.list, action.payload ] }
-    case collegesActions.REMOVE_COLLEGE: return { ...state, list: state.list.filter(id => id !== action.payload) }
+    case mycollegesActions.SET_COLLEGES: return { list: [ ...action.payload ], fetched: true }
+    case mycollegesActions.ADD_COLLEGE: return { ...state, list: [ ...state.list, action.payload ] }
+    case mycollegesActions.REMOVE_COLLEGE: return { ...state, list: state.list.filter(id => id !== action.payload) }
     default: return state
   }
 }
@@ -49,6 +51,14 @@ export function apps (state = { items: {}, fetched: false }, action) {
     case appsActions.ADD_APP: return { ...state, items: { ...state.items, [action.payload.id]: { ...action.payload } } }
     case appsActions.REMOVE_APP: return { ...state, items: { ...state.items, [action.payload.id]: null } }
     case appsActions.UPDATE_ITEMS: return { ...state, items: { ...state.items, ...action.payload } }
+    default: return state
+  }
+}
+
+export function colleges (state = {}, action) {
+  switch (action.type) {
+    case collegesActions.BEGIN_FETCH_COLLEGE: return { ...state, [action.payload]: false }
+    case collegesActions.FINISH_FETCH_COLLEGE: return { ...state, ...action.payload }
     default: return state
   }
 }

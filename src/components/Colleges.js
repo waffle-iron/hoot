@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import colleges from '../colleges'
+// import colleges from '../colleges'
 import * as styles from '../styles/Colleges.scss'
-import * as actions from '../actions/colleges'
+import * as actions from '../actions/mycolleges'
 import StressText from './StressText'
+import Button from './Button'
 
 const headings = [
   'choose your own adventure.',
-  'too many cooks.',
   'begin your descent into insanity.',
   'consider the following options.',
   'gaze at the colleges before you, and rejoice.',
@@ -40,7 +40,7 @@ const SearchBar = () => {
 }
 */
 
-export const Colleges = ({ goToCollege, addedColleges }) => {
+export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
   return (
     <div>
       <h2 className={styles.lead}>
@@ -51,16 +51,19 @@ export const Colleges = ({ goToCollege, addedColleges }) => {
         that fit your situation. bring some color to your future.
       </h3>
       {/* <SearchBar /> */}
-      {colleges.filter(({ id }) => !addedColleges.includes(id.toString())).map(c => (
+      {/* collegeList ? collegeList.filter(id => !addedColleges.includes(id)).map(c => (
         <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
-      ))}
+      )) : null */}
+      <Button to='/college/0'>hi</Button>
     </div>
   )
 }
 
 function mapStateToProps (state) {
   return {
-    addedColleges: state.colleges.list
+    addedColleges: state.mycolleges.list,
+    collegeList: state.colleges.list,
+    allColleges: state.colleges
   }
 }
 

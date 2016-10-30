@@ -13,11 +13,12 @@ import Colleges from './components/Colleges'
 import CollegeInfo from './components/CollegeInfo'
 import Essays from './components/Essays'
 import Essay from './components/Essay'
+import InstitutionInput from './components/InstitutionInput'
 
-import { auth } from './firebase'
-import { get } from './colleges'
+import { auth, database } from './firebase'
 import colorsActions, { fetchColors } from './actions/colors'
 import { resume } from './actions/login'
+import * as collegesActions from './actions/colleges'
 
 require('./globals.scss')
 require('font-awesome-webpack')
@@ -40,7 +41,7 @@ const ensureAuth = (state, redirect) => (nextState, replace) => {
 }
 
 export default ({ store, history }) => {
-  const resumeAuth = (nextState) => {
+  const resumeAuth = () => {
     if (auth.currentUser) {
       store.dispatch(resume())
     } else {
@@ -51,18 +52,37 @@ export default ({ store, history }) => {
     }
   }
 
-  const setColors = (nextState) => {
-    store.dispatch({
-      type: colorsActions.SET_COLORS,
-      payload: [get(nextState.params.id).colorPrimary]
+  const logOut = () => {
+    auth.signOut().then(() => {
+      store.dispatch(push('/'))
     })
+  }
 
+  const setColors = (nextState) => {
+    store.dispatch(collegesActions.fetchCollegeThenSetColors(nextState.params.id))
     store.dispatch({ type: colorsActions.SET_COLORFUL })
   }
 
-  const resetColors = (nextState) => {
+  const resetColors = () => {
     store.dispatch(fetchColors())
     store.dispatch({ type: colorsActions.UNSET_COLORFUL })
+  }
+
+  const ensureStudent = (v) => () => {
+    if (auth.currentUser) {
+      database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
+        if (v && (s.val() || s.val() === 0)) store.dispatch(push('/instituteDash'))
+        if (!v && (!s.val() && s.val() !== 0)) store.dispatch(push('/'))
+      })
+    } else {
+      auth.onAuthStateChanged((user) => {
+        if (!user) return
+        database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
+          if (v && (s.val() || s.val() === 0)) store.dispatch(push('/instituteDash'))
+          if (!v && (!s.val() && s.val() !== 0)) store.dispatch(push('/'))
+        })
+      })
+    }
   }
 
   return (
@@ -75,18 +95,22 @@ export default ({ store, history }) => {
             <Route path='/signup' component={Login(true)} />
           </Route>
           <Route path='/' onEnter={ensureAuth(true)}>
-            <Route path='/' onEnter={resetColors}>
-              <Route path='/tour' component={Tour} />
-              <Route path='/dashboard' component={Dashboard} />
-              <Route path='/profile' component={Profile} />
-              <Route path='/colleges' component={Colleges} />
+            <Route path='/' onEnter={ensureStudent(true)}>
+              <Route path='/' onEnter={resetColors}>
+                <Route path='/tour' component={Tour} />
+                <Route path='/dashboard' component={Dashboard} />
+                <Route path='/profile' component={Profile} />
+                <Route path='/colleges' component={Colleges} />
+              </Route>
+              <Route path='/apps' component={Essays}>
+                <IndexRoute onEnter={resetColors} />
+                <Route path=':id' component={Essay} onEnter={setColors} />
+              </Route>
+              <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
+              <Route path='/signout' onEnter={logOut} />
             </Route>
-            <Route path='/apps' component={Essays}>
-              <IndexRoute onEnter={resetColors} />
-              <Route path=':id' component={Essay} onEnter={setColors} />
-            </Route>
-            <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           </Route>
+          <Route path='/instituteDash' onEnter={ensureStudent(false)} component={InstitutionInput} />
         </Route>
       </Router>
     </Provider>

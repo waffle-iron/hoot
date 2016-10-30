@@ -5,9 +5,8 @@ import { push } from 'react-router-redux'
 import StressText from './StressText'
 import * as styles from '../styles/Dashboard.scss'
 import Button from './Button'
-import { get } from '../colleges'
 // import { auth } from '../firebase'
-import { CollegeEntry } from './Colleges'
+import * as collegesActions from '../actions/colleges'
 
 const adjectives = [
   'terrified',
@@ -51,13 +50,15 @@ export const sortDates = (a, b) => {
   return 0 - ((new Date(b.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), b.plan.dueDate.month - 1, b.plan.dueDate.day)) - (new Date(a.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), a.plan.dueDate.month - 1, a.plan.dueDate.day)))
 }
 
-export const Dashboard = ({ colleges, navigate, fetched, profileBuilt, apps }) => {
+export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileBuilt, apps, fetchAllMyColleges }) => {
   if (!fetched) {
     return (
       <div>
-        <h2 className={styles.lead}>im loading...</h2>
+        <h2 className={styles.lead}>Loading...</h2>
       </div>
     )
+  } else {
+    fetchAllMyColleges()
   }
   return (
     <div>
@@ -75,11 +76,11 @@ export const Dashboard = ({ colleges, navigate, fetched, profileBuilt, apps }) =
         ) : null
       }
       {
-        colleges.length > 0
-          ? colleges.length < 10 ? (
+        mycolleges.length > 0
+          ? mycolleges.length < 10 ? (
             <div>
               <h3 className={styles.label}>
-                you have {colleges.length} colleges added. try these on for size.
+                you have {mycolleges.length} colleges added. try these on for size.
               </h3>
               <Button to='/colleges'>click to make your wish list longer.</Button>
             </div>
@@ -101,7 +102,7 @@ export const Dashboard = ({ colleges, navigate, fetched, profileBuilt, apps }) =
             </h3>
             {
               Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
-                <h3>your {get(app.id).name} application {app.plan ? ` due ${app.plan.dueDate.month}/${app.plan.dueDate.day}` : null}</h3>
+                <h3>your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDate.month}/${app.plan.dueDate.day}` : null}</h3>
               ))
             }
           </div>
@@ -113,8 +114,9 @@ export const Dashboard = ({ colleges, navigate, fetched, profileBuilt, apps }) =
 
 function mapStateToProps (state) {
   return {
-    colleges: state.colleges.list,
-    fetched: state.colleges.fetched,
+    mycolleges: state.mycolleges.list,
+    allcolleges: state.colleges,
+    fetched: state.mycolleges.fetched,
     profileBuilt: Object.keys(state.profile.items).length > 0,
     apps: state.apps.items
   }
@@ -122,7 +124,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    navigate: _ => dispatch(push(_))
+    navigate: _ => dispatch(push(_)),
+    fetchAllMyColleges: _ => dispatch(collegesActions.fetchAllMyColleges())
   }
 }
 

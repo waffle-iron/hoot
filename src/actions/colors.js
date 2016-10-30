@@ -1,7 +1,6 @@
 import prefix from '../prefix'
 
 import { auth, database } from '../firebase'
-import { get } from '../colleges'
 
 const actions = prefix('color')([
   'SET_COLORFUL',
@@ -21,7 +20,7 @@ export const fetchColors = () => (dispatch, getState) => {
       if (!v) {
         dispatch({ type: actions.SET_COLORS, payload: ['#000000'] })
       } else {
-        dispatch({ type: actions.SET_COLORS, payload: Object.keys(v).map(k => get(v[k].id).colorPrimary) })
+        dispatch({ type: actions.SET_COLORS, payload: Object.keys(v).map(k => getState().colleges[v[k].id] ? getState().colleges[v[k].id].colorPrimary : '#000') })
       }
     })
   }
