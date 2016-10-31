@@ -55,6 +55,8 @@ export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
         <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
       )) : null */}
       {/* <Button to='/college/0'>hi</Button> */}
+      <Button to='/college/5'>columbia</Button>
+      <Button to='/college/4'>gtech</Button>
     </div>
   )
 }

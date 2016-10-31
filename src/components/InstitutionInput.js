@@ -22,6 +22,12 @@ const numFields = [
   'undergradPopulation',
   'inStateTuition',
   'outOfStateTuition',
+  'percentMale',
+  'percentFemale',
+  'percentEthnicityAlien'
+]
+
+const floatFields = [
   'percentEthnicityAmericanIndian',
   'percentEthnicityAsian',
   'percentEthnicityBi',
@@ -29,10 +35,7 @@ const numFields = [
   'percentEthnicityHispanic',
   'percentEthnicityPacificIslander',
   'percentEthnicityUnknown',
-  'percentEthnicityWhite',
-  'percentMale',
-  'percentFemale',
-  'percentEthnicityAlien'
+  'percentEthnicityWhite'
 ]
 
 class InstitutionInput extends Component {
@@ -97,7 +100,7 @@ class InstitutionInput extends Component {
       this.setState({ timeout: setTimeout(() => {
         this.props.updateCollege(this.props.institute, { ...(c => {
           let o = {}
-          Object.keys(c).forEach(k => { o[k] = numFields.includes(k) ? parseInt(c[k]) : c[k] })
+          Object.keys(c).forEach(k => { o[k] = numFields.includes(k) ? parseInt(c[k]) : floatFields.includes(k) ? parseFloat(c[k]) : c[k] })
           return o
         })(this.state.recentlyUpdated) })
         this.setState({ timeout: null, recentlyUpdated: {} })
