@@ -102,7 +102,7 @@ export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileB
             </h3>
             {
               Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
-                <h3>your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDate.month}/${app.plan.dueDate.day}` : null}</h3>
+                <h3>your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDateMonth}/${app.plan.dueDateDay}` : null}</h3>
               ))
             }
           </div>

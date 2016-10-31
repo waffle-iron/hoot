@@ -383,16 +383,22 @@ class InstitutionInput extends Component {
                 <div className={styles.section} key={`q${q.k}`}>
                   <div className={styles.himBig}>
                     <h3>prompt</h3>
-                    <textarea />
+                    <textarea value={q.prompt} onChange={(e) => {
+                      this.props.updateQuestion(this.props.institute, q.k, { prompt: e.target.value })
+                    }} />
                   </div>
                   <br />
                   <div className={styles.small}>
                     <h3>word limit</h3>
-                    <input type='text' />
+                    <input type='text' value={q.wordLimit} onChange={(e) => {
+                      this.props.updateQuestion(this.props.institute, q.k, { wordLimit: parseInt(e.target.value) })
+                    }} />
                   </div>
                   <div className={styles.small}>
                     <h3>required</h3>
-                    <input type='checkbox' id={`req${q.k}`} />
+                    <input type='checkbox' id={`req${q.k}`} checked={q.required} onChange={(e) => {
+                      this.props.updateQuestion(this.props.institute, q.k, { required: e.target.checked })
+                    }} />
                     <label htmlFor={`req${q.k}`} />
                   </div>
                 </div>

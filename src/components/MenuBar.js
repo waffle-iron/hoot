@@ -38,7 +38,7 @@ const LoginItems = ({ loggedIn, inverse, colors, onInstitute }) => {
       {[
         <Link to='/dashboard'>dashboard</Link>,
         <Link to='/profile'>profile</Link>,
-        <Link to='/colleges'>colleges</Link>,
+    //  <Link to='/colleges'>colleges</Link>, TODO uncomment when search implemented
         <Link to='/apps'>applications</Link>,
         <Link to='/signout'>sign out</Link>
       ].map((element) =>

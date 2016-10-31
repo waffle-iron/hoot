@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { get } from '../colleges'
 import Button from './Button'
 import * as actions from '../actions/apps'
+import * as collegeActions from '../actions/colleges'
 
 const mappedTypes = {
   'R': 'regular',
@@ -28,12 +28,21 @@ const commonEssay = {
   ]]
 }
 
-export const Application = ({ app, addApp, removeApp, removeAppPlan, params, setAppPlan }) => {
+export const Application = ({ app, addApp, removeApp, removeAppPlan, params, setAppPlan, college, fetchCollege }) => {
   const { id } = params
+  if (!college) {
+    console.log(college)
+    fetchCollege(id)
+    return (
+      <div>
+        <h2>Loading...</h2>
+      </div>
+    )
+  }
   if (!app) {
     return (
       <div>
-        <h3>click the button below to get started with your app to {get(id).name.toLowerCase()}.</h3>
+        <h3>click the button below to get started with your app to {college.name.toLowerCase()}.</h3>
         <Button onClick={() => { addApp(id) }}>get started</Button>
       </div>
     )
@@ -41,8 +50,8 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
     return (
       <div>
         <h3>which way are you planning on applying?</h3>
-        {get(id).application.decisionPlans.map(plan => (
-          <span><Button onClick={() => { setAppPlan(id, plan) }}>{mappedTypes[plan.type]} - due on {plan.dueDate.month}/{plan.dueDate.day}</Button><br /></span>
+        {Object.keys(college.decisionPlans).map(k => college.decisionPlans[k]).map(plan => (
+          <span><Button onClick={() => { setAppPlan(id, plan) }}>{mappedTypes[plan.type]} - due on {plan.dueDateMonth}/{plan.dueDateDay}</Button><br /></span>
         ))}
         <Button onClick={() => { removeApp(id) }}>go back this was a mistake</Button>
       </div>
@@ -53,34 +62,23 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
       <Button onClick={() => { removeAppPlan(id) }} style={{ marginRight: '1em', marginTop: '0' }}>change decision plan</Button>
       <Button to={`/college/${id}`} style={{ marginTop: '0' }}>view college page</Button><br />
       {
-        get(id).application.commonEssay ? (
+        college.requiresCommonEssay ? (
           <div>
             <h2>common essay</h2>
             <ul>
-              {commonEssay.prompt.map(p => <li>{p.join('\n')}</li>)}
+              {commonEssay.prompt.map(p => <li>{p}</li>)}
             </ul>
             <textarea />
           </div>
         ) : null
       }
       {
-        get(id).application.additionalEssay ? (
+        Object.keys(college.questions).length > 0 ? (
           <div>
-            <h2>additional essay</h2>
-            <ul>
-              {get(id).application.additionalEssay.prompt.map(p => <li>{p.join('\n')}</li>)}
-            </ul>
-            <textarea />
-          </div>
-        ) : null
-      }
-      {
-        get(id).application.questions.length > 0 ? (
-          <div>
-            <h2>questions</h2>
-            {get(id).application.questions.map(q => (
+            <h2>additional supplement</h2>
+            {Object.keys(college.questions).map(k => college.questions[k]).map(q => (
               <div>
-                <p>{q.prompt.join('\n')}</p>
+                <p>{q.prompt}</p>
                 <textarea />
               </div>
             ))}
@@ -93,7 +91,8 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
 
 function mapStateToProps (state, { params }) {
   return {
-    app: state.apps.items[params.id]
+    app: state.apps.items[params.id],
+    college: state.colleges[params.id]
   }
 }
 
@@ -102,7 +101,8 @@ function mapDispatchToProps (dispatch) {
     addApp: _ => dispatch(actions.addApp(_)),
     removeApp: _ => dispatch(actions.removeApp(_)),
     setAppPlan: (..._) => dispatch(actions.setAppPlan(..._)),
-    removeAppPlan: _ => dispatch(actions.removeAppPlan(_))
+    removeAppPlan: _ => dispatch(actions.removeAppPlan(_)),
+    fetchCollege: _ => dispatch(collegeActions.fetchCollege(_))
   }
 }
 

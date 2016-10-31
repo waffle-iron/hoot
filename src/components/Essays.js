@@ -14,8 +14,8 @@ const constructAppString = (app) => {
   if (!app) return 'not started'
   if (!app.plan) return 'deciding on decision plan'
   let today = new Date()
-  let dueDate = new Date(app.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.dueDate.month - 1, app.plan.dueDate.day)
-  let decisionDate = new Date(app.plan.decisionDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.decisionDate.month - 1, app.plan.decisionDate.day)
+  let dueDate = new Date(app.plan.dueDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.dueDateMonth - 1, app.plan.dueDateDay)
+  let decisionDate = new Date(app.plan.decisionDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.decisionDateMonth - 1, app.plan.decisionDateDay)
   if (!app.submitted) return `due in ${Math.round(Math.abs(today.getTime() - dueDate.getTime()) / (24 * 60 * 60 * 1000))} days`
   return `app submitted - decision in ${Math.round(Math.abs(today.getTime() - decisionDate.getTime()) / (24 * 60 * 60 * 1000))} days`
 }

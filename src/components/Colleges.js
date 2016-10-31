@@ -54,7 +54,7 @@ export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
       {/* collegeList ? collegeList.filter(id => !addedColleges.includes(id)).map(c => (
         <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
       )) : null */}
-      <Button to='/college/0'>hi</Button>
+      {/* <Button to='/college/0'>hi</Button> */}
     </div>
   )
 }
