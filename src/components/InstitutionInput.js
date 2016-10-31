@@ -11,6 +11,8 @@ const numFields = [
   'act25thPercentile',
   'act75thPercentile',
   'averageAnnualCost',
+  'averageGrantAid',
+  'percentFinancialAid',
   'forbesRanking',
   'percentAdmitted',
   'population',
