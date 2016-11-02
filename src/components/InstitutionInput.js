@@ -140,200 +140,342 @@ class InstitutionInput extends Component {
           future thank you.
         </h3>
         <br />
-        <h2 style={{ fontSize: '3em', margin: '1em 0 0 0' }}>General Information</h2>
+        <h2 style={{ fontSize: '3em', margin: '1em 0 0 0' }}>
+          General Information
+        </h2>
         <form className={styles.form}>
           <div className={styles.section}>
             <div className={styles.large}>
               <h3>college name</h3>
-              <input type='text' value={form.name} onChange={this.updateForm('name', 'text')} />
+              <input
+                type='text'
+                value={form.name}
+                onChange={this.updateForm('name', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.large} style={{ position: 'relative' }}>
               <h3>college location (city, state)</h3>
-              <input type='text' style={{ width: '400px', marginRight: '5px' }} value={form.city} onChange={this.updateForm('city', 'text')} />
+              <input
+                type='text'
+                style={{ width: '400px', marginRight: '5px' }}
+                value={form.city}
+                onChange={this.updateForm('city', 'text')} />
               <h3 style={{ width: '25px', display: 'inline-block', position: 'absolute', bottom: '0', fontSize: '3em' }}>,</h3>
-              <input type='text' style={{ width: '50px', marginLeft: '20px' }} value={form.state} onChange={this.updateForm('state', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px', marginLeft: '20px' }}
+                value={form.state}
+                onChange={this.updateForm('state', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.medium}>
               <h3>college phone number</h3>
-              <input type='text' value={form.phoneNumber} onChange={this.updateForm('phoneNumber', 'text')} />
+              <input
+                type='text'
+                value={form.phoneNumber}
+                onChange={this.updateForm('phoneNumber', 'text')} />
             </div>
             <div className={styles.large}>
               <h3>college website (include http://)</h3>
-              <input type='text' value={form.website} onChange={this.updateForm('website', 'text')} />
+              <input
+                type='text'
+                value={form.website}
+                onChange={this.updateForm('website', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.medium}>
               <h3>total population</h3>
-              <input type='text' value={form.population} onChange={this.updateForm('population', 'text')} />
+              <input
+                type='text'
+                value={form.population}
+                onChange={this.updateForm('population', 'text')} />
             </div>
             <div className={styles.medium}>
               <h3>total undergrad population</h3>
-              <input type='text' value={form.undergradPopulation} onChange={this.updateForm('undergradPopulation', 'text')} />
+              <input
+                type='text'
+                value={form.undergradPopulation}
+                onChange={this.updateForm('undergradPopulation', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>s:f ratio</h3>
-              <input type='text' value={form.sfRatio} onChange={this.updateForm('sfRatio', 'text')} />
+              <input
+                type='text'
+                value={form.sfRatio}
+                onChange={this.updateForm('sfRatio', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>total annual cost</h3>
               <h3 style={{ width: '25px', display: 'inline-block', fontSize: '2em', position: 'absolute', left: '5px', bottom: '12px' }}>$</h3>
-              <input type='text' style={{ width: '200px', marginLeft: '20px' }} value={form.averageAnnualCost} onChange={this.updateForm('averageAnnualCost', 'text')} />
+              <input
+                type='text'
+                style={{ width: '200px', marginLeft: '20px' }}
+                value={form.averageAnnualCost}
+                onChange={this.updateForm('averageAnnualCost', 'text')} />
             </div>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>in state tuition</h3>
               <h3 style={{ width: '25px', display: 'inline-block', fontSize: '2em', position: 'absolute', left: '5px', bottom: '12px' }}>$</h3>
-              <input type='text' style={{ width: '200px', marginLeft: '20px' }} value={form.inStateTuition} onChange={this.updateForm('inStateTuition', 'text')} />
+              <input
+                type='text'
+                style={{ width: '200px', marginLeft: '20px' }}
+                value={form.inStateTuition}
+                onChange={this.updateForm('inStateTuition', 'text')} />
             </div>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>out of state tuition</h3>
               <h3 style={{ width: '25px', display: 'inline-block', fontSize: '2em', position: 'absolute', left: '5px', bottom: '12px' }}>$</h3>
-              <input type='text' style={{ width: '200px', marginLeft: '20px' }} value={form.outOfStateTuition} onChange={this.updateForm('outOfStateTuition', 'text')} />
+              <input
+                type='text'
+                style={{ width: '200px', marginLeft: '20px' }}
+                value={form.outOfStateTuition}
+                onChange={this.updateForm('outOfStateTuition', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>fa</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentFinancialAid} onChange={this.updateForm('percentFinancialAid', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentFinancialAid}
+                onChange={this.updateForm('percentFinancialAid', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>average grant aid</h3>
               <h3 style={{ width: '25px', display: 'inline-block', fontSize: '2em', position: 'absolute', left: '5px', bottom: '12px' }}>$</h3>
-              <input type='text' style={{ width: '200px', marginLeft: '20px' }} value={form.averageGrantAid} onChange={this.updateForm('averageGrantAid', 'text')} />
+              <input
+                type='text'
+                style={{ width: '200px', marginLeft: '20px' }}
+                value={form.averageGrantAid}
+                onChange={this.updateForm('averageGrantAid', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>admit</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentAdmitted} onChange={this.updateForm('percentAdmitted', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentAdmitted}
+                onChange={this.updateForm('percentAdmitted', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.medium}>
               <h3>sat range (25th-75th)</h3>
-              <input type='text' style={{ width: '100px' }} value={form.sat25thPercentile} onChange={this.updateForm('sat25thPercentile', 'text')} />
+              <input
+                type='text'
+                style={{ width: '100px' }}
+                value={form.sat25thPercentile}
+                onChange={this.updateForm('sat25thPercentile', 'text')} />
               <h3 style={{ display: 'inline-block', margin: '0 10px', fontSize: '1.5em' }}>-</h3>
-              <input type='text' style={{ width: '100px' }} value={form.sat75thPercentile} onChange={this.updateForm('sat75thPercentile', 'text')} />
+              <input
+                type='text'
+                style={{ width: '100px' }}
+                value={form.sat75thPercentile}
+                onChange={this.updateForm('sat75thPercentile', 'text')} />
             </div>
             <div className={styles.medium}>
               <h3>act range (25th-75th)</h3>
-              <input type='text' style={{ width: '100px' }} value={form.act25thPercentile} onChange={this.updateForm('act25thPercentile', 'text')} />
+              <input
+                type='text'
+                style={{ width: '100px' }}
+                value={form.act25thPercentile}
+                onChange={this.updateForm('act25thPercentile', 'text')} />
               <h3 style={{ display: 'inline-block', margin: '0 10px', fontSize: '1.5em' }}>-</h3>
-              <input type='text' style={{ width: '100px' }} value={form.act75thPercentile} onChange={this.updateForm('act75thPercentile', 'text')} />
+              <input
+                type='text'
+                style={{ width: '100px' }}
+                value={form.act75thPercentile}
+                onChange={this.updateForm('act75thPercentile', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small} style={{ position: 'relative' }}>
               <h3>ranking</h3>
               <h3 style={{ width: '25px', display: 'inline-block', fontSize: '2em', position: 'absolute', left: '5px', bottom: '12px' }}>#</h3>
-              <input type='text' style={{ width: '50px', marginLeft: '20px' }} value={form.forbesRanking} onChange={this.updateForm('forbesRanking', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px', marginLeft: '20px' }}
+                value={form.forbesRanking}
+                onChange={this.updateForm('forbesRanking', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>american indian</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityAmericanIndian} onChange={this.updateForm('percentEthnicityAmericanIndian', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityAmericanIndian}
+                onChange={this.updateForm('percentEthnicityAmericanIndian', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>asian</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityAsian} onChange={this.updateForm('percentEthnicityAsian', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityAsian}
+                onChange={this.updateForm('percentEthnicityAsian', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>pacific islander</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityPacificIslander} onChange={this.updateForm('percentEthnicityPacificIslander', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityPacificIslander}
+                onChange={this.updateForm('percentEthnicityPacificIslander', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>black</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityBlack} onChange={this.updateForm('percentEthnicityBlack', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityBlack}
+                onChange={this.updateForm('percentEthnicityBlack', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>hispanic</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityHispanic} onChange={this.updateForm('percentEthnicityHispanic', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityHispanic}
+                onChange={this.updateForm('percentEthnicityHispanic', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>white</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityWhite} onChange={this.updateForm('percentEthnicityWhite', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityWhite}
+                onChange={this.updateForm('percentEthnicityWhite', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>biracial</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityBi} onChange={this.updateForm('percentEthnicityBi', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityBi}
+                onChange={this.updateForm('percentEthnicityBi', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>unknown</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityUnknown} onChange={this.updateForm('percentEthnicityUnknown', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityUnknown}
+                onChange={this.updateForm('percentEthnicityUnknown', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>alien</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentEthnicityAlien} onChange={this.updateForm('percentEthnicityAlien', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentEthnicityAlien}
+                onChange={this.updateForm('percentEthnicityAlien', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>male</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentMale} onChange={this.updateForm('percentMale', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentMale}
+                onChange={this.updateForm('percentMale', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
             <div className={styles.small}>
               <h3>female</h3>
-              <input type='text' style={{ width: '50px' }} value={form.percentFemale} onChange={this.updateForm('percentFemale', 'text')} />
+              <input
+                type='text'
+                style={{ width: '50px' }}
+                value={form.percentFemale}
+                onChange={this.updateForm('percentFemale', 'text')} />
               <h3 style={{ display: 'inline-block', fontSize: '1.75em', marginLeft: '5px' }}>%</h3>
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>primary color</h3>
-              <input type='text' value={form.colorPrimary} onChange={this.updateForm('colorPrimary', 'text')} />
+              <input
+                type='text'
+                value={form.colorPrimary}
+                onChange={this.updateForm('colorPrimary', 'text')} />
             </div>
             <div className={styles.medium} style={{ position: 'relative' }}>
               <h3>secondary color</h3>
-              <input type='text' value={form.colorSecondary} onChange={this.updateForm('colorSecondary', 'text')} />
+              <input
+                type='text'
+                value={form.colorSecondary}
+                onChange={this.updateForm('colorSecondary', 'text')} />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>common app</h3>
-              <input type='checkbox' id='capp' checked={form.acceptsCommon} onChange={this.updateForm('acceptsCommon', 'checkbox')} />
+              <input
+                type='checkbox'
+                id='capp'
+                checked={form.acceptsCommon}
+                onChange={this.updateForm('acceptsCommon', 'checkbox')} />
               <label htmlFor='capp' />
             </div>
             <div className={styles.small}>
               <h3>coalition app</h3>
-              <input type='checkbox' id='coapp' checked={form.acceptsCoalition} onChange={this.updateForm('acceptsCoalition', 'checkbox')} />
+              <input
+                type='checkbox'
+                id='coapp'
+                checked={form.acceptsCoalition}
+                onChange={this.updateForm('acceptsCoalition', 'checkbox')} />
               <label htmlFor='coapp' />
             </div>
             <div className={styles.small}>
               <h3>questbridge app</h3>
-              <input type='checkbox' id='qapp' checked={form.acceptsQuestbridge} onChange={this.updateForm('acceptsQuestbridge', 'checkbox')} />
+              <input
+                type='checkbox'
+                id='qapp'
+                checked={form.acceptsQuestbridge}
+                onChange={this.updateForm('acceptsQuestbridge', 'checkbox')} />
               <label htmlFor='qapp' />
             </div>
             <div className={styles.small}>
               <h3>universal app</h3>
-              <input type='checkbox' id='uapp' checked={form.acceptsUniversal} onChange={this.updateForm('acceptsUniversal', 'checkbox')} />
+              <input
+                type='checkbox'
+                id='uapp'
+                checked={form.acceptsUniversal}
+                onChange={this.updateForm('acceptsUniversal', 'checkbox')} />
               <label htmlFor='uapp' />
             </div>
           </div>
           <div className={styles.section}>
             <div className={styles.small}>
               <h3>common essay</h3>
-              <input type='checkbox' id='rce' checked={form.requiresCommonEssay} onChange={this.updateForm('requiresCommonEssay', 'checkbox')} />
+              <input
+                type='checkbox'
+                id='rce'
+                checked={form.requiresCommonEssay}
+                onChange={this.updateForm('requiresCommonEssay', 'checkbox')} />
               <label htmlFor='rce' />
             </div>
           </div>

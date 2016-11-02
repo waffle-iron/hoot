@@ -35,8 +35,12 @@ const Login = (signup) => ({ ...props }) => {
 const ensureAuth = (state, redirect) => (nextState, replace) => {
   if (state ? !auth.currentUser : auth.currentUser) {
     replace({
-      pathname: redirect || state ? '/login' : '/dashboard',
-      state: { nextPathname: nextState.location.pathname }
+      pathname: (redirect || state)
+        ? '/login'
+        : '/dashboard',
+      state: {
+        nextPathname: nextState.location.pathname
+      }
     })
   }
 }
@@ -45,10 +49,26 @@ export default ({ store, history }) => {
   const resumeAuth = (nextState) => {
     console.log(nextState)
     if (auth.currentUser) {
-      store.dispatch(resume({ state: { nextPathname: nextState.location.state ? nextState.location.state.nextPathname || '/dashboard' : '/dashboard' } }))
+      store.dispatch(
+        resume({
+          state: {
+            nextPathname: nextState.location.state
+              ? nextState.location.state.nextPathname || '/dashboard'
+              : '/dashboard'
+          }
+        })
+      )
     } else {
       auth.onAuthStateChanged((user) => {
-        store.dispatch(resume({ state: { nextPathname: nextState.location.state ? nextState.location.state.nextPathname || '/dashboard' : '/dashboard' } }))
+        store.dispatch(
+          resume({
+            state: {
+              nextPathname: nextState.location.state
+                ? nextState.location.state.nextPathname || '/dashboard'
+                : '/dashboard'
+            }
+          })
+        )
       })
     }
   }
