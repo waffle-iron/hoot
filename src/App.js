@@ -74,14 +74,6 @@ export default ({ store, history }) => {
       const i = store.getState().login.institute
       if (v && (i || i === 0)) replace({ pathname: '/instituteDash' })
       if (!v && (!i && i !== 0)) replace({ pathname: (nextState.location.state.nextPathname || '/') })
-    } else {
-      auth.onAuthStateChanged((user) => {
-        if (!user) return
-        database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
-          if (v && (s.val() || s.val() === 0)) store.dispatch(push('/instituteDash'))
-          if (!v && (!s.val() && s.val() !== 0)) store.dispatch(push('/'))
-        })
-      })
     }
   }
 
@@ -108,7 +100,7 @@ export default ({ store, history }) => {
               <Route path='/signout' onEnter={logOut} />
             </Route>
           </Route>
-          <Route path='/colleges' component={Colleges} />
+          <Route path='/colleges' component={Colleges} onEnter={resetColors} />
           <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           <Route path='/instituteDash' onEnter={ensureStudent(false)} component={InstitutionInput} />
         </Route>

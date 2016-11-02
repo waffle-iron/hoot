@@ -57,7 +57,6 @@ export function signup (email, password, location) {
 }
 
 export const resume = (location) => (dispatch) => {
-  console.log(location)
   dispatch({ type: actions.LOGIN_SUCCESS })
   dispatch(fetchColleges(() => {
     dispatch(fetchAllMyColleges(() => {
@@ -71,6 +70,7 @@ export const resume = (location) => (dispatch) => {
     if (s.val() || s.val() === 0) {
       dispatch({ type: actions.SET_INSTITUTE, payload: s.val() })
       dispatch(fetchCollege(s.val()))
+      dispatch(push('/instituteDash'))
     }
   })
 }

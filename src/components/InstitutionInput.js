@@ -162,7 +162,7 @@ class InstitutionInput extends Component {
               <input type='text' value={form.phoneNumber} onChange={this.updateForm('phoneNumber', 'text')} />
             </div>
             <div className={styles.large}>
-              <h3>college website (exclude http://)</h3>
+              <h3>college website (include http://)</h3>
               <input type='text' value={form.website} onChange={this.updateForm('website', 'text')} />
             </div>
           </div>
