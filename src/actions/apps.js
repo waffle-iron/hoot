@@ -9,7 +9,6 @@ const actions = prefix('apps')([
 ])
 
 export const addApp = (id) => {
-  console.log(id)
   return (dispatch) => {
     const ref = database.ref(`users/${auth.currentUser.uid}/apps/${id}`)
     ref.set({ id }, () => {

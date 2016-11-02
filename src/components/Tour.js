@@ -4,43 +4,44 @@ import React from 'react'
 // since it's the same type of page
 import styles from '../styles/Landing.scss'
 import StressText from './StressText'
-import Button from './Button'
 
 export default () => {
   return (
     <div>
       <h1 className={styles.lead}>
-        <StressText content='throw away all the college guides. this one is written for you.' />
+        <StressText content='About us' />
       </h1>
       <h3 className={styles.content}>
-        hoot is built around you, to ensure your success. give us as much info
-        as you want - test scores, gpa, and similar stats - and we'll do our
-        best to match you with the best schools for you. choose a set of reach,
-        match, and safety schools all suited to your wants.
+        The college admissions process today is a collection of poorly designed
+        websites and a lot of decentralized information. My college admissions
+        process involved ten different application sites and a lot of research
+        into how to optimize where I applied and how I applied. It was a lot of
+        work for me - and I could only succeed because I was given the time and
+        attention of those around me.
       </h3>
-      <h1 className={styles.leadRight}>
-        <StressText content='write essays like you already have that english degree.' />
-      </h1>
-      <h3 className={styles.content} style={{ textAlign: 'right' }}>
-        hoot is designed for your application. view all of your upcoming essays,
-        due dates, and prompt ideas from a simple, unified dashboard. plan for
-        interviews like a pro. and ace the essay with an essay writing screen
-        designed around the colleges you're writing for.
-      </h3>
-      <h1 className={styles.lead}>
-        <StressText content='cover yourself in the cash of the wealthy.' />
-      </h1>
       <h3 className={styles.content}>
-        hoot has a built in scholarship search, so you can seek out what scholarships
-        best suit your needs and the exact requirements for each. you can also
-        view the merit scholarships at each college you consider, and easily
-        factor in cost to your final college list.
+        I created this site out of a personal desire to help everyone succeed at
+        admissions, and to help everyone show their best side to admissions
+        officers, so that you can apply to the higher education institutions
+        you're most suited for without having to execute a thousand google
+        searches. I want everyone to be prepared for college - that's all there
+        is to it.
       </h3>
-      <br /><br /><br /><br /> {/* i'm lazy */}
-      <h1 className={styles.lead}>
-        <StressText content="don't subject yourself to a thousand google searches." />
-      </h1>
-      <Button to='/signup'>sign up now.</Button>
+      <h3 className={styles.content}>
+        The site will always be entirely free to use. If you make an account,
+        you can fill out a short profile which will let us help you find the
+        colleges that are right for you, helping you form an application profile
+        so you have the maximum chance of succeeding. And you can chat with
+        student representatives from a variety of colleges, to learn more from
+        the college than a paragraph or two could ever say.
+      </h3>
+      <h3 className={styles.content}>
+        But don't take my word for it. Get started today. I guarantee you won't
+        regret it.
+      </h3>
+      <h3 className={styles.content}>
+        <i>- Kyle Fahringer</i>
+      </h3>
     </div>
   )
 }

@@ -35,26 +35,28 @@ const LeftCollegeEntry = ({ children, college, allcolleges, style, app, expanded
 const LeftCollegeBar = ({ colleges, allcolleges, goToCollege, expanded, active, apps }) => {
   return (
     <div className={styles.leftBar} style={{ width: expanded ? '100%' : null }}>
-      {Object.keys(apps).map(k => apps[k]).sort(sortDates).map(college => (
+      {Object.keys(apps).filter(c => allcolleges[c]).map(k => apps[k]).sort(sortDates).map(college => (
         <LeftCollegeEntry
           college={college.id.toString()}
           app={college}
           style={{ width: expanded ? '100%' : college.id.toString() === active ? '120px' : '60px' }}
           expanded={expanded}
           allcolleges={allcolleges}
+          key={`appSelect${college.id.toString()}`}
           onClick={e => goToCollege(college.id.toString())}>
           {(allcolleges[college.id.toString()].name.split(' ')[1] === 'University' || allcolleges[college.id.toString()].name.split(' ')[1] === 'College')
             ? allcolleges[college.id.toString()].name.split(' ')[0].toLowerCase()
             : allcolleges[college.id.toString()].name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
         </LeftCollegeEntry>
       ))}
-      {colleges.filter(c => !Object.keys(apps).includes(c)).map(college => (
+      {colleges.filter(c => allcolleges[c]).filter(c => !Object.keys(apps).includes(c)).map(college => (
         <LeftCollegeEntry
           college={college}
           app={null}
           style={{ width: expanded ? '100%' : college === active ? '120px' : '60px' }}
           expanded={expanded}
           allcolleges={allcolleges}
+          key={`appSelect${college}`}
           onClick={e => goToCollege(college)}>
           {(allcolleges[college].name.split(' ')[1] === 'University' || allcolleges[college].name.split(' ')[1] === 'College')
             ? allcolleges[college].name.split(' ')[0].toLowerCase()

@@ -7,7 +7,7 @@ const actions = prefix('colleges')([
   'FINISH_FETCH_COLLEGE'
 ])
 
-export const fetchCollege = (id) => (dispatch, getState, cb) => {
+export const fetchCollege = (id, cb) => (dispatch, getState) => {
   if (!id && id !== 0) return // cmon man
   if (getState().colleges[id]) return // we've already got the college
   if (getState().colleges[id] === false) return // we're already getting the college
@@ -20,8 +20,18 @@ export const fetchCollege = (id) => (dispatch, getState, cb) => {
   })
 }
 
-export const fetchAllMyColleges = () => (dispatch, getState) => {
-  getState().mycolleges.list.forEach(c => dispatch(fetchCollege(c)))
+// TODO rewrite using promises
+export const fetchAllMyColleges = (cb) => (dispatch, getState) => {
+  let ready = 0
+  getState().mycolleges.list.forEach(c => dispatch(fetchCollege(c, () => { ready += 1 })))
+  const onFinished = (cb) => {
+    if (ready === getState().mycolleges.list.length) {
+      cb()
+    } else {
+      setTimeout(() => { onFinished(cb) }, 5)
+    }
+  }
+  if (cb) onFinished(cb)
 }
 
 export const fetchCollegeThenSetColors = (id) => (dispatch, getState) => {
@@ -37,9 +47,9 @@ export const fetchCollegeThenSetColors = (id) => (dispatch, getState) => {
     })
   } else {
     // we haven't got it so we're gonna get it again
-    fetchCollege(id)(dispatch, getState, (s) => {
+    dispatch(fetchCollege(id, (s) => {
       dispatch({ type: colorsActions.SET_COLORS, payload: [ s.val().colorPrimary ] })
-    })
+    }))
   }
 }
 

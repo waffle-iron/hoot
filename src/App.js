@@ -35,19 +35,20 @@ const Login = (signup) => ({ ...props }) => {
 const ensureAuth = (state, redirect) => (nextState, replace) => {
   if (state ? !auth.currentUser : auth.currentUser) {
     replace({
-      pathname: redirect || state ? '/login' : '/dashboard'
+      pathname: redirect || state ? '/login' : '/dashboard',
+      state: { nextPathname: nextState.location.pathname }
     })
   }
 }
 
 export default ({ store, history }) => {
-  const resumeAuth = () => {
+  const resumeAuth = (nextState) => {
+    console.log(nextState)
     if (auth.currentUser) {
-      store.dispatch(resume())
+      store.dispatch(resume({ state: { nextPathname: nextState.location.state ? nextState.location.state.nextPathname || '/dashboard' : '/dashboard' } }))
     } else {
       auth.onAuthStateChanged((user) => {
-        store.dispatch(resume())
-        store.dispatch(push('/dashboard'))
+        store.dispatch(resume({ state: { nextPathname: nextState.location.state ? nextState.location.state.nextPathname || '/dashboard' : '/dashboard' } }))
       })
     }
   }
@@ -68,12 +69,11 @@ export default ({ store, history }) => {
     store.dispatch({ type: colorsActions.UNSET_COLORFUL })
   }
 
-  const ensureStudent = (v) => () => {
+  const ensureStudent = (v) => (nextState, replace) => {
     if (auth.currentUser) {
-      database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
-        if (v && (s.val() || s.val() === 0)) store.dispatch(push('/instituteDash'))
-        if (!v && (!s.val() && s.val() !== 0)) store.dispatch(push('/'))
-      })
+      const i = store.getState().login.institute
+      if (v && (i || i === 0)) replace({ pathname: '/instituteDash' })
+      if (!v && (!i && i !== 0)) replace({ pathname: (nextState.location.state.nextPathname || '/') })
     } else {
       auth.onAuthStateChanged((user) => {
         if (!user) return
@@ -89,27 +89,27 @@ export default ({ store, history }) => {
     <Provider store={store}>
       <Router history={history}>
         <Route path='/' component={Wrapper} onEnter={resumeAuth}>
-          <IndexRoute component={Landing} onEnter={ensureAuth(false)} />
+          <IndexRoute component={Landing} onEnter={(..._) => { ensureAuth(false)(..._); resetColors(..._) }} />
           <Route path='/' onEnter={ensureAuth(false)}>
             <Route path='/login' component={Login(false)} />
             <Route path='/signup' component={Login(true)} />
+            <Route path='/about' component={Tour} />
           </Route>
           <Route path='/' onEnter={ensureAuth(true)}>
             <Route path='/' onEnter={ensureStudent(true)}>
               <Route path='/' onEnter={resetColors}>
-                <Route path='/tour' component={Tour} />
                 <Route path='/dashboard' component={Dashboard} />
                 <Route path='/profile' component={Profile} />
-                <Route path='/colleges' component={Colleges} />
               </Route>
               <Route path='/apps' component={Essays}>
                 <IndexRoute onEnter={resetColors} />
                 <Route path=':id' component={Essay} onEnter={setColors} />
               </Route>
-              <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
               <Route path='/signout' onEnter={logOut} />
             </Route>
           </Route>
+          <Route path='/colleges' component={Colleges} />
+          <Route path='/college/:id' component={CollegeInfo} onEnter={setColors} />
           <Route path='/instituteDash' onEnter={ensureStudent(false)} component={InstitutionInput} />
         </Route>
       </Router>

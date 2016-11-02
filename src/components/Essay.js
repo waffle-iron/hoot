@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Button from './Button'
 import * as actions from '../actions/apps'
 import * as collegeActions from '../actions/colleges'
+import * as styles from '../styles/Essay.scss'
 
 const mappedTypes = {
   'R': 'regular',
@@ -58,9 +59,10 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
     )
   }
   return (
-    <div style={{ padding: '1em' }}>
+    <div className={styles.questions}>
       <Button onClick={() => { removeAppPlan(id) }} style={{ marginRight: '1em', marginTop: '0' }}>change decision plan</Button>
       <Button to={`/college/${id}`} style={{ marginTop: '0' }}>view college page</Button><br />
+      <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '1.75em' }} />
       {
         college.requiresCommonEssay ? (
           <div>
@@ -69,6 +71,7 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
               {commonEssay.prompt.map(p => <li>{p}</li>)}
             </ul>
             <textarea />
+            <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '0.5em' }} />
           </div>
         ) : null
       }
@@ -78,10 +81,11 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
             <h2>additional supplement</h2>
             {Object.keys(college.questions).map(k => college.questions[k]).map(q => (
               <div>
-                <p>{q.prompt}</p>
+                {q.prompt.split('\n').map(qq => <p>{qq}</p>)}
                 <textarea />
               </div>
             ))}
+            <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '0.5em' }} />
           </div>
         ) : null
       }

@@ -8,18 +8,18 @@ export default () => {
   return (
     <div>
       <h1 className={styles.lead}>
-        <StressText content='the anti-bullshit college application resource.' />
+        <StressText content='The college application site, for students, by students.' />
       </h1>
       <h3 className={styles.content}>
-        get rid of the noise and just use hoot.
-        choose your colleges and write your essays, without the headache and
+        Get rid of the noise and just use hoot.
+        Choose your colleges and write your essays, without the headache and
         stress and yelling and all that not fun stuff.
-        built by stressed college applicants, for stressed college applicants.
-        no fancy gloss, no daily emails. and entirely free, without advertisements.
+        Built by stressed college applicants, for stressed college applicants.
+        No fancy gloss, no daily emails. and entirely free, without advertisements.
       </h3>
-      <Button to='/tour'>take a tour.</Button>
+      <Button to='/about'>Learn about us.</Button>
       <h3 className={styles.content}>or,</h3>
-      <Button to='/signup'>sign up now.</Button>
+      <Button to='/signup'>Sign up now.</Button>
     </div>
   )
 }

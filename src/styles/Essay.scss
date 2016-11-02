@@ -1,0 +1,32 @@
+.questions {
+  padding: 1em;
+
+  h2 {
+    font-size: 1.75em;
+    margin-top: 2em;
+  }
+
+  ul > li {
+    font-family: "proxima-nova";
+    font-weight: bold;
+    font-size: 1.25em;
+  }
+
+  p {
+    font-family: "proxima-nova";
+    font-weight: bold;
+    font-size: 1.25em;
+  }
+
+  textarea {
+    width: 100%;
+    border: 5px solid black;
+    outline: none;
+    font-size: 1.5em;
+    font-family: "proxima-nova";
+    font-weight: bold;
+    margin-top: 1em;
+    padding: 1em;
+    margin-bottom: 2em;
+  }
+}

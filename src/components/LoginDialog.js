@@ -39,10 +39,10 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps (dispatch, { location }) {
   return {
-    login: (email, password) => dispatch(actions.login(email, password)),
-    signup: (email, password) => dispatch(actions.signup(email, password))
+    login: (email, password) => dispatch(actions.login(email, password, location)),
+    signup: (email, password) => dispatch(actions.signup(email, password, location))
   }
 }
 

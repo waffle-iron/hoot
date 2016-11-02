@@ -1,10 +1,12 @@
+import { push } from 'react-router-redux'
+
 import prefix from '../prefix'
 import { auth, database } from '../firebase'
 import { fetchColors } from './colors'
 import { fetchColleges } from './mycolleges'
 import { fetchProfile } from './profile'
 import { fetchApps } from './apps'
-import { fetchCollegeList, fetchCollege } from './colleges'
+import { fetchAllMyColleges, fetchCollege } from './colleges'
 
 const actions = prefix('login')([
   'BEGIN_LOGIN',
@@ -28,7 +30,7 @@ let timeout
 
 export default actions
 
-export function login (email, password) {
+export function login (email, password, location) {
   clearTimeout(timeout)
   return (dispatch) => {
     dispatch({ type: actions.BEGIN_LOGIN })
@@ -41,7 +43,7 @@ export function login (email, password) {
   }
 }
 
-export function signup (email, password) {
+export function signup (email, password, location) {
   clearTimeout(timeout)
   return (dispatch) => {
     dispatch({ type: actions.BEGIN_LOGIN })
@@ -54,13 +56,17 @@ export function signup (email, password) {
   }
 }
 
-export const resume = () => (dispatch) => {
+export const resume = (location) => (dispatch) => {
+  console.log(location)
   dispatch({ type: actions.LOGIN_SUCCESS })
-  dispatch(fetchColors())
-  dispatch(fetchColleges())
+  dispatch(fetchColleges(() => {
+    dispatch(fetchAllMyColleges(() => {
+      dispatch(fetchColors())
+    }))
+  }))
   dispatch(fetchProfile())
   dispatch(fetchApps())
-  dispatch(fetchCollegeList())
+  dispatch(push(location.state.nextPathname))
   database.ref(`users/${auth.currentUser.uid}/institution`).once('value').then(s => {
     if (s.val() || s.val() === 0) {
       dispatch({ type: actions.SET_INSTITUTE, payload: s.val() })

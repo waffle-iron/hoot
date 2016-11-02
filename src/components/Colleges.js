@@ -29,16 +29,17 @@ export const CollegeEntry = ({ data, onClick }) => {
   )
 }
 
-/*
-const SearchBar = () => {
+const SearchBar = ({ onSubmit }) => {
   return (
-    <form className={styles.search}>
+    <form className={styles.search} onSubmit={e => {
+      e.preventDefault()
+      onSubmit(e.target.children[0].value)
+    }}>
       <input type='text' />
       <button type='submit' />
     </form>
   )
 }
-*/
 
 export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
   return (
@@ -47,16 +48,13 @@ export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
         <StressText content={headings[Math.floor(Math.random() * headings.length)]} />
       </h2>
       <h3 className={styles.content}>
-        start your college search here. type below to search for colleges
-        that fit your situation. bring some color to your future.
+        search isn't implemented yet you fools. in the mean time type a number
+        below to go to the college with that id.
       </h3>
-      {/* <SearchBar /> */}
+      <SearchBar onSubmit={goToCollege} />
       {/* collegeList ? collegeList.filter(id => !addedColleges.includes(id)).map(c => (
         <CollegeEntry key={c.name} data={c} onClick={(c) => { goToCollege(c) }} />
       )) : null */}
-      {/* <Button to='/college/0'>hi</Button> */}
-      <Button to='/college/5'>columbia</Button>
-      <Button to='/college/4'>gtech</Button>
     </div>
   )
 }

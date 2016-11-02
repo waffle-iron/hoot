@@ -2,6 +2,7 @@ import { push } from 'react-router-redux'
 
 import { auth, database } from '../firebase'
 import prefix from '../prefix'
+import { fetchCollege } from './colleges'
 
 const actions = prefix('mycolleges')([
   'SET_COLLEGES',
@@ -19,6 +20,7 @@ export const addCollege = (id) => (dispatch) => {
   const colleges = database.ref(`users/${auth.currentUser.uid}/colleges`)
   const newCollege = colleges.push()
   newCollege.set({ id })
+  dispatch(fetchCollege(id))
   dispatch({ type: actions.ADD_COLLEGE, payload: id })
 }
 
@@ -30,7 +32,7 @@ export const removeCollege = (id) => (dispatch) => {
   })
 }
 
-export const fetchColleges = () => (dispatch) => {
+export const fetchColleges = (cb) => (dispatch) => {
   database.ref(`users/${auth.currentUser.uid}/colleges`).once('value').then(snapshot => {
     dispatch({
       type: actions.SET_COLLEGES,
@@ -38,6 +40,7 @@ export const fetchColleges = () => (dispatch) => {
         ? Object.keys(snapshot.val()).map(k => snapshot.val()[k].id)
         : []
     })
+    if (cb) cb()
   })
 }
 

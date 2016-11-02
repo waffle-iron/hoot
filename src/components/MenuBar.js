@@ -38,7 +38,7 @@ const LoginItems = ({ loggedIn, inverse, colors, onInstitute }) => {
       {[
         <Link to='/dashboard'>dashboard</Link>,
         <Link to='/profile'>profile</Link>,
-    //  <Link to='/colleges'>colleges</Link>, TODO uncomment when search implemented
+        <Link to='/colleges'>colleges</Link>,
         <Link to='/apps'>applications</Link>,
         <Link to='/signout'>sign out</Link>
       ].map((element) =>
@@ -69,9 +69,36 @@ const LoginItems = ({ loggedIn, inverse, colors, onInstitute }) => {
       )}
     </div>
   ) : (
-    <div className={styles.right}>
-      <Link to='/login'>login</Link>
-      <Link to='/signup'>sign up</Link>
+    <div className={classNames(styles.right, { [styles.inverse]: inverse })}>
+      {[
+        <Link to='/login'>login</Link>,
+        <Link to='/signup'>sign up</Link>
+      ].map((element) =>
+        // what a fucking hack
+        cloneElement(element, {
+          key: `linkTo${element.props.to}`,
+          onMouseOver: (e) => {
+            if (inverse) {
+              e.target.style.cssText =
+                `color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            } else {
+              e.target.style.cssText =
+                `background-color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            }
+          },
+          onMouseOut: (e) => {
+            e.target.style.cssText = ''
+          },
+          onClick: (e) => {
+            if (inverse) {
+              e.target.style.cssText = ''
+            } else {
+              e.target.style.cssText =
+                `background-color: ${colors[Math.floor(Math.random() * colors.length)]}`
+            }
+          }
+        })
+      )}
     </div>
   )
 }

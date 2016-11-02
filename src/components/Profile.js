@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import StressText from './StressText'
-import downArrow from '../assets/downArrow.png'
+// import downArrow from '../assets/downArrow.png'
 import * as styles from '../styles/Profile.scss'
 import * as actions from '../actions/profile'
 
 const headings = [
-  'portrait of the artist as a high school student.',
-  'how much do you regret that C now, huh.',
-  'reflect spitefully upon your past failing.',
-  'meow meow meow meow meow meow.',
-  'if only the sat covered real life skills.',
-  'my act score is so low because of society.',
-  "don't worry, colleges look at improvement."
+  'Portrait of the artist as a high school student.',
+  'How much do you regret that C now, huh?',
+  'Reflect spitefully upon your past failing.',
+  'meow meow meow meow meow meow',
+  'If only the sat covered real life skills.',
+  'My act score is so low because of society.',
+  "Don't worry, colleges look at improvement."
 ]
 
 export class Profile extends Component {
@@ -84,10 +84,10 @@ export class Profile extends Component {
           <StressText content={this.state.lead} />
         </h2>
         <h3 className={styles.smallLead}>
-          fill in as much as you'd like below. when you're done, hit
-          save, or press enter. we'll handle the rest.
+          Fill in as much as you'd like below. When you're done, hit
+          save, or press enter. We'll handle the rest.
         </h3>
-        {this.state.savedRecently ? <h3>saved</h3> : null}
+        <div className={styles.saved}><h3>{this.state.savedRecently ? 'saved' : 'saving...'}</h3></div>
         <form className={styles.form} onSubmit={(e) => {
           e.preventDefault()
           this.handleSubmit()
@@ -140,20 +140,8 @@ export class Profile extends Component {
               <input type='text' style={{ width: '75px' }} value={this.state.form.classSize} onChange={this.handleUpdate('classSize')} />
             </div>
           </div>
-          <div className={styles.section}>
-            <div className={styles.medium}>
-              <h3>affirmative action status</h3>
-              <select style={{ background: `url(${downArrow}) 95% / 10% no-repeat #fff` }} value={this.state.form.ethnicity} onChange={this.handleUpdate('ethnicity')}>
-                <option value='white'>white</option>
-                <option value='latino'>latino</option>
-                <option value='black'>black</option>
-                <option value='asian'>asian</option>
-                <option value='other'>other</option>
-              </select>
-            </div>
-          </div>
           <br />
-          <button type='submit'>all done for now.</button>
+          <button type='submit'>All done for now.</button>
         </form>
       </div>
     )

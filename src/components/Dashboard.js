@@ -47,7 +47,7 @@ const randomNoun = () => nouns[Math.floor(Math.random() * nouns.length)]
 export const sortDates = (a, b) => {
   if (!b.plan) return -1
   if (!a.plan) return 1
-  return 0 - ((new Date(b.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), b.plan.dueDate.month - 1, b.plan.dueDate.day)) - (new Date(a.plan.dueDate.month > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), a.plan.dueDate.month - 1, a.plan.dueDate.day)))
+  return 0 - ((new Date(b.plan.dueDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), b.plan.dueDateMonth - 1, b.plan.dueDateDay)) - (new Date(a.plan.dueDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), a.plan.dueDateMonth - 1, a.plan.dueDateDay)))
 }
 
 export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileBuilt, apps, fetchAllMyColleges }) => {
@@ -57,21 +57,19 @@ export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileB
         <h2 className={styles.lead}>Loading...</h2>
       </div>
     )
-  } else {
-    fetchAllMyColleges()
   }
   return (
     <div>
       <h2 className={styles.lead}>
-        <StressText content={`welcome back, ${randomAdjective()} ${randomNoun()}. `} />
+        <StressText content={`Welcome back, ${randomAdjective()} ${randomNoun()}. `} />
       </h2>
       {
         !profileBuilt ? (
           <div>
             <h3 className={styles.label}>
-              it looks like you haven't built your profile.
+              It looks like you haven't built your profile.
             </h3>
-            <Button to='/profile'>head over here to do that.</Button>
+            <Button to='/profile'>Build it for personalized suggestions.</Button>
           </div>
         ) : null
       }
@@ -80,17 +78,17 @@ export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileB
           ? mycolleges.length < 10 ? (
             <div>
               <h3 className={styles.label}>
-                you have {mycolleges.length} colleges added. try these on for size.
+                You have {mycolleges.length} colleges added.
               </h3>
-              <Button to='/colleges'>click to make your wish list longer.</Button>
+              <Button to='/colleges'>Choose a few more.</Button>
             </div>
           ) : null
         : (
           <div>
             <h3 className={styles.label}>
-              you should start looking at some colleges. it looks like you haven't added any to your list.
+              You should start looking at some colleges. It looks like you haven't added any to your list.
             </h3>
-            <Button to='/colleges'>click me and catch them all.</Button>
+            <Button to='/colleges'>Start selecting now.</Button>
           </div>
         )
       }
@@ -98,11 +96,11 @@ export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileB
         apps ? (
           <div>
             <h3 className={styles.label}>
-              you've got some essays you need to work on. here's what's coming up.
+              You've got some essays you need to work on. Here's what's coming up.
             </h3>
             {
               Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
-                <h3>your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDateMonth}/${app.plan.dueDateDay}` : null}</h3>
+                <h3 key={`appRemind${app.id}`}>Your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDateMonth}/${app.plan.dueDateDay}` : null}</h3>
               ))
             }
           </div>
