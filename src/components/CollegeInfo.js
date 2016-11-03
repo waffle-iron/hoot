@@ -91,8 +91,21 @@ export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeColle
         <h2 className={styles.lead}>
           <StressText content={college.name.toLowerCase()} />
         </h2>
-        { auth.currentUser ? <Button onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>{ isAdded ? 'remove college' : 'add college' }</Button> : null }
-        { auth.currentUser ? isAdded ? <Button style={{ marginLeft: '10px' }} to={`/apps/${id}`} >get started</Button> : null : null }
+        { auth.currentUser
+          ? (
+            <Button
+              onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>
+              { isAdded ? 'remove college' : 'add college' }
+            </Button>
+            )
+          : null }
+        { auth.currentUser
+          ? isAdded
+            ? (
+              <Button style={{ marginLeft: '10px' }} to={`/apps/${id}`} >get started</Button>
+              )
+            : null
+          : null }
       </div>
       <h2 className={styles.lead}>about this college</h2>
       <h3 className={styles.content} style={{ margin: '1em 0' }}>

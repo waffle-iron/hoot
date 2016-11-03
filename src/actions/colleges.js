@@ -2,6 +2,7 @@ import prefix from '../prefix'
 import { database } from '../firebase'
 import colorsActions from './colors'
 
+// TODO action for updating college
 const actions = prefix('colleges')([
   'BEGIN_FETCH_COLLEGE',
   'FINISH_FETCH_COLLEGE'
@@ -61,7 +62,15 @@ export const updateCollege = (id, updates) => (dispatch, getState) => {
   database.ref(`colleges/${id}`).update({
     ...updates
   }, () => {
-    dispatch({ type: actions.FINISH_FETCH_COLLEGE, payload: { [id]: { ...getState().colleges[id], ...updates } } })
+    dispatch({
+      type: actions.FINISH_FETCH_COLLEGE,
+      payload: {
+        [id]: {
+          ...getState().colleges[id],
+          ...updates
+        }
+      }
+    })
   })
 }
 
@@ -74,7 +83,17 @@ export const addDecisionPlan = (id) => (dispatch, getState) => {
   newPlan.set({ type: 'R' }, () => {
     dispatch({
       type: actions.FINISH_FETCH_COLLEGE,
-      payload: { [id]: { ...getState().colleges[id], decisionPlans: { ...getState().colleges[id].decisionPlans, [newPlan.key]: { type: 'R' } } } }
+      payload: {
+        [id]: {
+          ...getState().colleges[id],
+          decisionPlans: {
+            ...getState().colleges[id].decisionPlans,
+            [newPlan.key]: {
+              type: 'R'
+            }
+          }
+        }
+      }
     })
   })
 }
@@ -83,7 +102,17 @@ export const updateDecisionPlan = (id, key, updates) => (dispatch, getState) => 
   database.ref(`colleges/${id}/decisionPlans/${key}`).update({ ...updates }, () => {
     dispatch({
       type: actions.FINISH_FETCH_COLLEGE,
-      payload: { [id]: { ...getState().colleges[id], decisionPlans: { ...getState().colleges[id].decisionPlans, [key]: { ...updates } } } }
+      payload: {
+        [id]: {
+          ...getState().colleges[id],
+          decisionPlans: {
+            ...getState().colleges[id].decisionPlans,
+            [key]: {
+              ...updates
+            }
+          }
+        }
+      }
     })
   })
 }
@@ -93,7 +122,17 @@ export const addQuestion = (id) => (dispatch, getState) => {
   newPlan.set({ prompt: '' }, () => {
     dispatch({
       type: actions.FINISH_FETCH_COLLEGE,
-      payload: { [id]: { ...getState().colleges[id], questions: { ...getState().colleges[id].questions, [newPlan.key]: { prompt: '' } } } }
+      payload: {
+        [id]: {
+          ...getState().colleges[id],
+          questions: {
+            ...getState().colleges[id].questions,
+            [newPlan.key]: {
+              prompt: ''
+            }
+          }
+        }
+      }
     })
   })
 }
@@ -102,7 +141,17 @@ export const updateQuestion = (id, key, updates) => (dispatch, getState) => {
   database.ref(`colleges/${id}/questions/${key}`).update({ ...updates }, () => {
     dispatch({
       type: actions.FINISH_FETCH_COLLEGE,
-      payload: { [id]: { ...getState().colleges[id], questions: { ...getState().colleges[id].questions, [key]: { ...updates } } } }
+      payload: {
+        [id]: {
+          ...getState().colleges[id],
+          questions: {
+            ...getState().colleges[id].questions,
+            [key]: {
+              ...updates
+            }
+          }
+        }
+      }
     })
   })
 }

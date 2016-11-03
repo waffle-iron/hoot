@@ -47,7 +47,6 @@ const ensureAuth = (state, redirect) => (nextState, replace) => {
 
 export default ({ store, history }) => {
   const resumeAuth = (nextState) => {
-    console.log(nextState)
     if (auth.currentUser) {
       store.dispatch(
         resume({
