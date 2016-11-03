@@ -5,17 +5,16 @@ import { connect } from 'react-redux'
 import * as styles from '../styles/Colleges.scss'
 import * as actions from '../actions/mycolleges'
 import StressText from './StressText'
-import Button from './Button'
+// import Button from './Button'
 
 const headings = [
-  'choose your own adventure.',
-  'begin your descent into insanity.',
-  'consider the following options.',
-  'gaze at the colleges before you, and rejoice.',
+  'Choose your own adventure.',
+  'Begin your descent into insanity.',
+  'Consider the following options.',
+  'Gaze at the colleges before you, and rejoice.',
   'meow meow meow meow meow.',
-  "help i'm trapped in a stupid heading generator.",
-  'i tried to think of positive headings but failed.',
-  'financial aid makes these all viable, probably.'
+  "Help! I'm trapped in a stupid heading generator!",
+  'Financial aid makes these all viable, probably.'
 ]
 
 export const CollegeEntry = ({ data, onClick }) => {
@@ -48,7 +47,7 @@ export const Colleges = ({ goToCollege, addedColleges, collegeList }) => {
         <StressText content={headings[Math.floor(Math.random() * headings.length)]} />
       </h2>
       <h3 className={styles.content}>
-        search isn't implemented yet you fools. in the mean time type a number
+        Search isn't implemented yet. In the mean time, type a number
         below to go to the college with that id.
       </h3>
       <SearchBar onSubmit={goToCollege} />

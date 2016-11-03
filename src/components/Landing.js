@@ -18,6 +18,7 @@ export default () => {
         No fancy gloss, no daily emails. and entirely free, without advertisements.
       </h3>
       <Button to='/about'>Learn about us.</Button>
+      <Button style={{ marginLeft: '10px' }} to='/colleges'>Browse our colleges.</Button>
       <h3 className={styles.content}>or,</h3>
       <Button to='/signup'>Sign up now.</Button>
     </div>

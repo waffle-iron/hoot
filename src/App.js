@@ -101,7 +101,7 @@ export default ({ store, history }) => {
       <Router history={history}>
         <Route path='/' component={Wrapper} onEnter={resumeAuth}>
           <IndexRoute component={Landing} onEnter={(..._) => { ensureAuth(false)(..._); resetColors(..._) }} />
-          <Route path='/' onEnter={ensureAuth(false)}>
+          <Route path='/' onEnter={(..._) => { ensureAuth(false)(..._); resetColors(..._) }}>
             <Route path='/login' component={Login(false)} />
             <Route path='/signup' component={Login(true)} />
             <Route path='/about' component={Tour} />

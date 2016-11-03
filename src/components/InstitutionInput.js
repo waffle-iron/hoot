@@ -21,7 +21,9 @@ const numFields = [
   'inStateTuition',
   'outOfStateTuition',
   'percentMale',
-  'percentFemale'
+  'percentFemale',
+  'usnawrRanking',
+  'theRanking'
 ]
 
 const floatFields = [
@@ -60,6 +62,8 @@ class InstitutionInput extends Component {
         act25thPercentile: '',
         act75thPercentile: '',
         forbesRanking: '',
+        usnawrRanking: '',
+        theRanking: '', // times higher education
         percentEthnicityAmericanIndian: '',
         percentEthnicityAsian: '',
         percentEthnicityPacificIslander: '',
@@ -424,7 +428,7 @@ class InstitutionInput extends Component {
           {/* rankings */}
           <div className={styles.section}>
             <div className={styles.small} style={{ position: 'relative' }}>
-              <h3>ranking</h3>
+              <h3>forbes ranking</h3>
               <h3 style={{
                 width: '25px',
                 display: 'inline-block',
@@ -437,6 +441,36 @@ class InstitutionInput extends Component {
                 style={{ width: '50px', marginLeft: '20px' }}
                 value={form.forbesRanking}
                 onChange={this.updateForm('forbesRanking', 'text')} />
+            </div>
+            <div className={styles.small} style={{ position: 'relative' }}>
+              <h3>usn&wr ranking</h3>
+              <h3 style={{
+                width: '25px',
+                display: 'inline-block',
+                fontSize: '2em',
+                position: 'absolute',
+                left: '5px',
+                bottom: '12px' }}>#</h3>
+              <input
+                type='text'
+                style={{ width: '50px', marginLeft: '20px' }}
+                value={form.usnawrRanking}
+                onChange={this.updateForm('usnawrRanking', 'text')} />
+            </div>
+            <div className={styles.small} style={{ position: 'relative' }}>
+              <h3>THE ranking</h3>
+              <h3 style={{
+                width: '25px',
+                display: 'inline-block',
+                fontSize: '2em',
+                position: 'absolute',
+                left: '5px',
+                bottom: '12px' }}>#</h3>
+              <input
+                type='text'
+                style={{ width: '50px', marginLeft: '20px' }}
+                value={form.theRanking}
+                onChange={this.updateForm('theRanking', 'text')} />
             </div>
           </div>
           {/* ethnicity */}
