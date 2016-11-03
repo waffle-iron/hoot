@@ -1,22 +1,77 @@
 # hoot
-rebooted ccompare
+[![Known Vulnerabilities](https://snyk.io/test/github/vulpino/hoot/7114b645e1cbd83752fb5d43f00b8c8634435a85/badge.svg)](https://snyk.io/test/github/vulpino/hoot/7114b645e1cbd83752fb5d43f00b8c8634435a85)
+[![Join the chat at https://gitter.im/hootrocks](https://badges.gitter.im/hootrocks.svg)](https://gitter.im/hootrocks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-## What's left to do
+Hoot is a college application app, built to help students apply to the best
+assortment of colleges possible. For more information on what hoot is, visit
+[the site](https://hoot.rocks). This document will go over technical details.
 
-### College Search implementation
-For this we need to implement ElasticSearch which means running a separate server, which is something I was hoping to avoid by using firebase. Fun!
+## The stack
 
-- ElasticSearch
-- [Flashlight](https://github.com/firebase/flashlight)
-- [bonsai](https://bonsai.io)
-- [heroku](https://heroku.com)
+This is what hoot is composed of.
 
-We could also look into using something on GCP if it'd work with firebase. But I can't see anything.
+On the front end:
+- **React:** The foundation of the web app, react and JSX are used on the front
+  end to render the app.
+- **Redux:** Redux is used with react to manage the state of the app.
+- **Webpack:** Webpack is used to pack the app into a small, cubical shape. It
+  also allows us to host a hot-reloading version of the app in development.
+- **Babel:** Babel is used to transpile the JSX and stage-2 features we use.
+- **SASS:** SASS is used because it's 2016, and we're already using webpack, and
+  writing CSS sucks.
 
-### Student Representatives
-We need a third type of user account for user representatives. These account
-have a dashboard with a series of chats, and are assigned to individual
-schools. They also need to be manually verified, like institute accounts.
+On the back end:
+- **Firebase:** Firebase hosts all the data, and handles all of the auth system.
+  I did this because hosting servers is hard.
 
-### Data Gathering
-Set up institute accounts and gather data
+### Wait Firebase isn't FOSS
+
+Yeah, whatever, programming is hard. Listen, all the data stored on hoot is free
+to access, and additionally I plan on releasing all the data contained within as
+JSON documents so that other programs can use what I have gathered, because I'm
+a big believer in openness, rah rah rah. If that isn't "open source" enough for
+you I don't care. I'm just here to make cool stuff.
+
+## Developing
+
+To set up a local development environment:
+
+```
+git clone https://github.com/vulpino/hoot
+cd hoot
+npm i
+node start-hot.js
+```
+
+And now, open up `localhost:3000` in your web browser of choice, and reflect.
+
+## Deploying
+
+Assuming you have access to the firebase project:
+
+```
+mkdir deploy
+webpack --config webpack.config.production.js
+firebase deploy
+``` 
+
+## Contributing
+
+You could just pick a GitHub issue, fork, and try to fix it. But I'd encourage
+you to join me in the gitter.im room linked above, so that we can talk about the
+different issues being tracked and what is the most important right now. I am
+friendly people! (I can't vouch for anyone else except a few of my friends, 
+though.)
+
+### Style Guide
+
+Please abide by [StandardJS](http://standardjs.com).
+
+```
+npm install -g standard 
+standard
+```
+
+The website details different methods for using it, if the command line just
+doesn't work for you.

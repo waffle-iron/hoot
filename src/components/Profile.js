@@ -87,7 +87,7 @@ export class Profile extends Component {
           Fill in as much as you'd like below. When you're done, hit
           save, or press enter. We'll handle the rest.
         </h3>
-        <div className={styles.saved}><h3>{this.state.savedRecently ? 'saved' : 'saving...'}</h3></div>
+        <div className={styles.saved}><h3>{this.state.savedRecently ? 'Saved.' : 'Saving...'}</h3></div>
         <form className={styles.form} onSubmit={(e) => {
           e.preventDefault()
           this.handleSubmit()
