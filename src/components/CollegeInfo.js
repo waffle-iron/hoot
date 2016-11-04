@@ -8,6 +8,7 @@ import * as actions from '../actions/mycolleges'
 import downArrow from '../assets/downArrow.png'
 import * as collegesActions from '../actions/colleges'
 import { auth } from '../firebase'
+import Loading from './Loading'
 
 const getDifficulty = (num) => {
   if (num <= 5) {
@@ -188,82 +189,76 @@ const CostSection = ({ cost }) => {
 }
 
 export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeCollege, isAdded, sat, act }) => {
-  if (!college) {
-    fetchCollege(id)
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    )
-  }
   return (
-    <div>
+    <Loading finished={college}>
       <div>
-        <h2 className={styles.lead}>
-          <StressText content={college.name} />
-        </h2>
-        { auth.currentUser
-          ? (
-            <Button
-              onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>
-              { isAdded ? 'Remove college' : 'Add college' }
-            </Button>
-            )
-          : null }
-        { auth.currentUser
-          ? isAdded
+        <div>
+          <h2 className={styles.lead}>
+            <StressText content={college.name} />
+          </h2>
+          { auth.currentUser
             ? (
-              <Button style={{ marginLeft: '10px' }} to={`/apps/${id}`} >Get started</Button>
+              <Button
+                onClick={(e) => { isAdded ? removeCollege(id) : addCollege(id) }}>
+                { isAdded ? 'Remove college' : 'Add college' }
+              </Button>
               )
-            : null
-          : null }
-      </div>
-      <h2 className={styles.lead}>About This College</h2>
-      <h3 className={styles.content} style={{ margin: '1em 0' }}>
-        {college.name} is a college {college.city && college.state ? `based in ${college.city}, ${college.state}.` : null}
-      </h3>
-      <div className={styles.column}>
-        {college.population ? <PopulationSection total={college.population} undergrad={college.undergradPopulation} /> : null}
-        {college.averageAnnualCost ? <CostSection cost={college.averageAnnualCost} /> : null}
-      </div>
-      <div className={styles.column}>
-        {college.percentFinancialAid ? <FinancialAidSection fa={college.percentFinancialAid} avg={college.averageGrantAid} /> : null}
-        {college.forbesRanking ? <RankingSection ranking={college.forbesRanking} source='forbes' /> : null}
-        {college.usnawrRanking ? <RankingSection ranking={college.usnawrRanking} source='us news and world report' /> : null}
-        {college.theRanking ? <RankingSection ranking={college.forbesRanking} source='times higher education' /> : null}
-        {/* TODO ethnicity section? */}
-      </div>
-      <h2 className={styles.lead}>Getting In</h2>
-      <h3 className={styles.content} style={{ margin: '1em 0' }}>
-        This school is {getDifficulty(Math.round(college.percentAdmitted))} to get into.
-      </h3>
-      <div className={styles.column}>
-        <div className={styles.section}>
-          <h2 className={styles.ranking}>{Math.round(college.percentAdmitted)}%</h2>
-          <h3>percent of applicants are admitted.</h3>
+            : null }
+          { auth.currentUser
+            ? isAdded
+              ? (
+                <Button style={{ marginLeft: '10px' }} to={`/apps/${id}`} >Get started</Button>
+                )
+              : null
+            : null }
         </div>
-        <div className={styles.section}>
-          <h3 className={styles.content}>{constructAppString(college)}</h3>
+        <h2 className={styles.lead}>About This College</h2>
+        <h3 className={styles.content} style={{ margin: '1em 0' }}>
+          {college.name} is a college {college.city && college.state ? `based in ${college.city}, ${college.state}.` : null}
+        </h3>
+        <div className={styles.column}>
+          {college.population ? <PopulationSection total={college.population} undergrad={college.undergradPopulation} /> : null}
+          {college.averageAnnualCost ? <CostSection cost={college.averageAnnualCost} /> : null}
         </div>
-        {/*
-        <div className={styles.section}>
-          <h3 className={styles.content}>{constructDecisionPlanString(college)}</h3>
+        <div className={styles.column}>
+          {college.percentFinancialAid ? <FinancialAidSection fa={college.percentFinancialAid} avg={college.averageGrantAid} /> : null}
+          {college.forbesRanking ? <RankingSection ranking={college.forbesRanking} source='forbes' /> : null}
+          {college.usnawrRanking ? <RankingSection ranking={college.usnawrRanking} source='us news and world report' /> : null}
+          {college.theRanking ? <RankingSection ranking={college.forbesRanking} source='times higher education' /> : null}
+          {/* TODO ethnicity section? */}
         </div>
-        */}
+        <h2 className={styles.lead}>Getting In</h2>
+        <h3 className={styles.content} style={{ margin: '1em 0' }}>
+          This school is {getDifficulty(Math.round(college.percentAdmitted))} to get into.
+        </h3>
+        <div className={styles.column}>
+          <div className={styles.section}>
+            <h2 className={styles.ranking}>{Math.round(college.percentAdmitted)}%</h2>
+            <h3>percent of applicants are admitted.</h3>
+          </div>
+          <div className={styles.section}>
+            <h3 className={styles.content}>{constructAppString(college)}</h3>
+          </div>
+          {/*
+          <div className={styles.section}>
+            <h3 className={styles.content}>{constructDecisionPlanString(college)}</h3>
+          </div>
+          */}
+        </div>
+        <div className={styles.column}>
+          <div className={styles.section}>
+            <h3 className={styles.content}>sat percentile</h3>
+            <PercentileBar max={1600} left={college.sat25thPercentile} right={college.sat75thPercentile} marker={sat} />
+            <h3>50% of accepted students score between {college.sat25thPercentile} and {college.sat75thPercentile} on the sat.</h3>
+          </div>
+          <div className={styles.section}>
+            <h3 className={styles.content}>act percentile</h3>
+            <PercentileBar max={36} left={college.act25thPercentile} right={college.act75thPercentile} marker={act} />
+            <h3>50% of accepted students score between {college.act25thPercentile} and {college.act75thPercentile} on the sat.</h3>
+          </div>
+        </div>
       </div>
-      <div className={styles.column}>
-        <div className={styles.section}>
-          <h3 className={styles.content}>sat percentile</h3>
-          <PercentileBar max={1600} left={college.sat25thPercentile} right={college.sat75thPercentile} marker={sat} />
-          <h3>50% of accepted students score between {college.sat25thPercentile} and {college.sat75thPercentile} on the sat.</h3>
-        </div>
-        <div className={styles.section}>
-          <h3 className={styles.content}>act percentile</h3>
-          <PercentileBar max={36} left={college.act25thPercentile} right={college.act75thPercentile} marker={act} />
-          <h3>50% of accepted students score between {college.act25thPercentile} and {college.act75thPercentile} on the sat.</h3>
-        </div>
-      </div>
-    </div>
+    </Loading>
   )
 }
 
