@@ -64,6 +64,16 @@ different issues being tracked and what is the most important right now. I am
 friendly people! (I can't vouch for anyone else except a few of my friends, 
 though.)
 
+### Overv.io
+
+I track issues in [overv.io](https://overv.io/vulpino/hoot/board/). Issues that
+are queued I'm looking to have In Progress in the next week, and I should only
+have two issues In Progress at a time. If we gather more regular contributors,
+I'll be able to assign them work and have more issues In Progress, and that
+means we'll be able to hold a longer queue and develop faster. If you want to
+help, I would really like that you pick an issue in the queue, comment on it,
+and I'll assign it to you so you can work on it. Thank you!
+
 ### Style Guide
 
 Please abide by [StandardJS](http://standardjs.com).

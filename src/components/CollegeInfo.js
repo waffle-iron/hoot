@@ -192,7 +192,9 @@ export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeColle
   return (
     <Loading finished={college}>
       <div>
-        <div>
+        <div className={styles.header} style={{ backgroundColor: college.colorPrimary }} />
+        {/* TODO: Render header photo for college if present */}
+        <div style={{ position: 'relative', zIndex: 5 }}>
           <h2 className={styles.lead}>
             <StressText content={college.name} />
           </h2>

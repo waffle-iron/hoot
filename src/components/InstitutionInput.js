@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom' // eslint-disable-line
 import { connect } from 'react-redux'
+import DropzoneComponent from 'react-dropzone-component'
+
+require('../../node_modules/react-dropzone-component/styles/filepicker.css')
+require('../../node_modules/dropzone/dist/min/dropzone.min.css')
 
 import * as styles from '../styles/InstitutionInput.scss'
 import * as actions from '../actions/colleges.js'
@@ -777,6 +782,25 @@ class InstitutionInput extends Component {
             Add Supplement Question
           </Button>
         </form>
+        <h2 style={{ fontSize: '3em', margin: '1em 0 0 0' }}>Campus Photos</h2>
+        <h3 className={styles.smallLead} style={{ width: '70%', minWidth: '500px' }}>
+          These pictures are used throughout the site to represent your campus,
+          along with the color you provide. Give the highest resolution photos
+          possible.
+        </h3>
+        {/* TODO Style, render check when complete */}
+        <DropzoneComponent
+          config={{
+            postUrl: 'no-url'
+          }}
+          djsConfig={{
+            autoProcessQueue: false
+          }}
+          eventHandlers={{
+            addedfile: (f) => {
+              this.props.addCampusPhoto(this.props.institute, f)
+            }
+          }} />
       </div>
     )
   }
@@ -795,7 +819,8 @@ function mapDispatchToProps (dispatch) {
     addDecisionPlan: _ => dispatch(actions.addDecisionPlan(_)),
     updateDecisionPlan: (..._) => dispatch(actions.updateDecisionPlan(..._)),
     addQuestion: _ => dispatch(actions.addQuestion(_)),
-    updateQuestion: (..._) => dispatch(actions.updateQuestion(..._))
+    updateQuestion: (..._) => dispatch(actions.updateQuestion(..._)),
+    addCampusPhoto: (..._) => dispatch(actions.addCampusPhoto(..._))
   }
 }
 

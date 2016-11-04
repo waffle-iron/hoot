@@ -68,7 +68,6 @@ const LeftCollegeBar = ({ colleges, allcolleges, goToCollege, expanded, active, 
 }
 
 export const Essays = ({ mycolleges, allcolleges, goToCollege, fetchAllMyColleges, children, params, apps }) => {
-  fetchAllMyColleges()
   return (
     <div className={styles.root}>
       <h2 className={styles.lead}>

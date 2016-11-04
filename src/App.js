@@ -15,7 +15,7 @@ import Essays from './components/Essays'
 import Essay from './components/Essay'
 import InstitutionInput from './components/InstitutionInput'
 
-import { auth, database } from './firebase'
+import { auth } from './firebase'
 import colorsActions, { fetchColors } from './actions/colors'
 import { resume } from './actions/login'
 import * as collegesActions from './actions/colleges'

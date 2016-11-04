@@ -31,8 +31,6 @@ const commonEssay = {
 export const Application = ({ app, addApp, removeApp, removeAppPlan, params, setAppPlan, college, fetchCollege }) => {
   const { id } = params
   if (!college) {
-    console.log(college)
-    fetchCollege(id)
     return (
       <div>
         <h2>Loading...</h2>

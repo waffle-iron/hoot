@@ -1,5 +1,5 @@
 import prefix from '../prefix'
-import { database } from '../firebase'
+import { database, storage } from '../firebase'
 import colorsActions from './colors'
 
 // TODO action for updating college
@@ -152,6 +152,16 @@ export const updateQuestion = (id, key, updates) => (dispatch, getState) => {
           }
         }
       }
+    })
+  })
+}
+
+export const addCampusPhoto = (id, file) => (dispatch, getState) => {
+  const key = Math.random().toString(16)
+  console.log(key)
+  storage.ref(`campus-photos/${id}/${key}`).put(file).then(() => {
+    database.ref(`colleges/${id}/photos`).push().set({
+      storage: key
     })
   })
 }
