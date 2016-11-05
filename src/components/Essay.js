@@ -7,12 +7,11 @@ import * as collegeActions from '../actions/colleges'
 import * as styles from '../styles/Essay.scss'
 
 const mappedTypes = {
-  'R': 'regular',
-  'REA': 'restrictive early action',
-  'EA': 'early action',
-  'ED': 'early decision',
-  'ED2': 'early decision 2',
-  'T': 'transfer'
+  'R': 'Regular',
+  'REA': 'Restrictive Early Action',
+  'EA': 'Early Action',
+  'ED': 'Early Decision',
+  'ED2': 'Early Decision 2'
 }
 
 const commonEssay = {
@@ -32,8 +31,6 @@ const commonEssay = {
 export const Application = ({ app, addApp, removeApp, removeAppPlan, params, setAppPlan, college, fetchCollege }) => {
   const { id } = params
   if (!college) {
-    console.log(college)
-    fetchCollege(id)
     return (
       <div>
         <h2>Loading...</h2>
@@ -43,30 +40,30 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
   if (!app) {
     return (
       <div>
-        <h3>click the button below to get started with your app to {college.name.toLowerCase()}.</h3>
-        <Button onClick={() => { addApp(id) }}>get started</Button>
+        <h3>Click the button below to get started with your app to {college.name.toLowerCase()}.</h3>
+        <Button onClick={() => { addApp(id) }}>Get started</Button>
       </div>
     )
   } else if (!app.plan) {
     return (
       <div>
-        <h3>which way are you planning on applying?</h3>
+        <h3>Which way are you planning on applying?</h3>
         {Object.keys(college.decisionPlans).map(k => college.decisionPlans[k]).map(plan => (
           <span><Button onClick={() => { setAppPlan(id, plan) }}>{mappedTypes[plan.type]} - due on {plan.dueDateMonth}/{plan.dueDateDay}</Button><br /></span>
         ))}
-        <Button onClick={() => { removeApp(id) }}>go back this was a mistake</Button>
+        <Button onClick={() => { removeApp(id) }}>Go back this was a mistake</Button>
       </div>
     )
   }
   return (
     <div className={styles.questions}>
-      <Button onClick={() => { removeAppPlan(id) }} style={{ marginRight: '1em', marginTop: '0' }}>change decision plan</Button>
-      <Button to={`/college/${id}`} style={{ marginTop: '0' }}>view college page</Button><br />
+      <Button onClick={() => { removeAppPlan(id) }} style={{ marginRight: '1em', marginTop: '0' }}>Change decision plan</Button>
+      <Button to={`/college/${id}`} style={{ marginTop: '0' }}>View college page</Button><br />
       <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '1.75em' }} />
       {
         college.requiresCommonEssay ? (
           <div>
-            <h2>common essay</h2>
+            <h2>Common essay</h2>
             <ul>
               {commonEssay.prompt.map(p => <li>{p}</li>)}
             </ul>
@@ -78,7 +75,7 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
       {
         Object.keys(college.questions).length > 0 ? (
           <div>
-            <h2>additional supplement</h2>
+            <h2>Additional supplement</h2>
             {Object.keys(college.questions).map(k => college.questions[k]).map(q => (
               <div>
                 {q.prompt.split('\n').map(qq => <p>{qq}</p>)}

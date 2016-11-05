@@ -25,3 +25,13 @@
   display: inline-block;
   vertical-align: top;
 }
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 400px;
+  z-index: 1;
+  background-color: #000;
+}

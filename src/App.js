@@ -15,7 +15,7 @@ import Essays from './components/Essays'
 import Essay from './components/Essay'
 import InstitutionInput from './components/InstitutionInput'
 
-import { auth, database } from './firebase'
+import { auth } from './firebase'
 import colorsActions, { fetchColors } from './actions/colors'
 import { resume } from './actions/login'
 import * as collegesActions from './actions/colleges'
@@ -47,7 +47,6 @@ const ensureAuth = (state, redirect) => (nextState, replace) => {
 
 export default ({ store, history }) => {
   const resumeAuth = (nextState) => {
-    console.log(nextState)
     if (auth.currentUser) {
       store.dispatch(
         resume({
@@ -102,7 +101,7 @@ export default ({ store, history }) => {
       <Router history={history}>
         <Route path='/' component={Wrapper} onEnter={resumeAuth}>
           <IndexRoute component={Landing} onEnter={(..._) => { ensureAuth(false)(..._); resetColors(..._) }} />
-          <Route path='/' onEnter={ensureAuth(false)}>
+          <Route path='/' onEnter={(..._) => { ensureAuth(false)(..._); resetColors(..._) }}>
             <Route path='/login' component={Login(false)} />
             <Route path='/signup' component={Login(true)} />
             <Route path='/about' component={Tour} />

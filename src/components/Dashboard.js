@@ -7,6 +7,7 @@ import * as styles from '../styles/Dashboard.scss'
 import Button from './Button'
 // import { auth } from '../firebase'
 import * as collegesActions from '../actions/colleges'
+import Loading from './Loading'
 
 const adjectives = [
   'terrified',
@@ -51,62 +52,57 @@ export const sortDates = (a, b) => {
 }
 
 export const Dashboard = ({ mycolleges, allcolleges, navigate, fetched, profileBuilt, apps, fetchAllMyColleges }) => {
-  if (!fetched) {
-    return (
-      <div>
-        <h2 className={styles.lead}>Loading...</h2>
-      </div>
-    )
-  }
   return (
-    <div>
-      <h2 className={styles.lead}>
-        <StressText content={`Welcome back, ${randomAdjective()} ${randomNoun()}. `} />
-      </h2>
-      {
-        !profileBuilt ? (
-          <div>
-            <h3 className={styles.label}>
-              It looks like you haven't built your profile.
-            </h3>
-            <Button to='/profile'>Build it for personalized suggestions.</Button>
-          </div>
-        ) : null
-      }
-      {
-        mycolleges.length > 0
-          ? mycolleges.length < 10 ? (
+    <Loading finished={fetched}>
+      <div>
+        <h2 className={styles.lead}>
+          <StressText content={`Welcome back, ${randomAdjective()} ${randomNoun()}. `} />
+        </h2>
+        {
+          !profileBuilt ? (
             <div>
               <h3 className={styles.label}>
-                You have {mycolleges.length} colleges added.
+                It looks like you haven't built your profile.
               </h3>
-              <Button to='/colleges'>Choose a few more.</Button>
+              <Button to='/profile'>Build it for personalized suggestions.</Button>
             </div>
           ) : null
-        : (
-          <div>
-            <h3 className={styles.label}>
-              You should start looking at some colleges. It looks like you haven't added any to your list.
-            </h3>
-            <Button to='/colleges'>Start selecting now.</Button>
-          </div>
-        )
-      }
-      {
-        apps ? (
-          <div>
-            <h3 className={styles.label}>
-              You've got some essays you need to work on. Here's what's coming up.
-            </h3>
-            {
-              Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
-                <h3 key={`appRemind${app.id}`}>Your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDateMonth}/${app.plan.dueDateDay}` : null}</h3>
-              ))
-            }
-          </div>
-        ) : null
-      }
-    </div>
+        }
+        {
+          mycolleges.length > 0
+            ? mycolleges.length < 10 ? (
+              <div>
+                <h3 className={styles.label}>
+                  You have {mycolleges.length} colleges added.
+                </h3>
+                <Button to='/colleges'>Choose a few more.</Button>
+              </div>
+            ) : null
+          : (
+            <div>
+              <h3 className={styles.label}>
+                You should start looking at some colleges. It looks like you haven't added any to your list.
+              </h3>
+              <Button to='/colleges'>Start selecting now.</Button>
+            </div>
+          )
+        }
+        {
+          apps ? (
+            <div>
+              <h3 className={styles.label}>
+                You've got some essays you need to work on. Here's what's coming up.
+              </h3>
+              {
+                Object.keys(apps).map(k => apps[k]).sort(sortDates).map(app => (
+                  <h3 key={`appRemind${app.id}`}>Your {allcolleges[app.id].name} application {app.plan ? ` due ${app.plan.dueDateMonth}/${app.plan.dueDateDay}` : null}</h3>
+                ))
+              }
+            </div>
+          ) : null
+        }
+      </div>
+    </Loading>
   )
 }
 

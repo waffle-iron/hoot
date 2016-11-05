@@ -11,13 +11,13 @@ import * as collegesActions from '../actions/colleges'
 const filterWords = ['of', 'in', 'the', 'City']
 
 const constructAppString = (app) => {
-  if (!app) return 'not started'
-  if (!app.plan) return 'deciding on decision plan'
+  if (!app) return 'Not started'
+  if (!app.plan) return 'Deciding on decision plan'
   let today = new Date()
   let dueDate = new Date(app.plan.dueDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.dueDateMonth - 1, app.plan.dueDateDay)
   let decisionDate = new Date(app.plan.decisionDateMonth > 8 ? (new Date().getFullYear()) : (new Date().getFullYear() + 1), app.plan.decisionDateMonth - 1, app.plan.decisionDateDay)
-  if (!app.submitted) return `due in ${Math.round(Math.abs(today.getTime() - dueDate.getTime()) / (24 * 60 * 60 * 1000))} days`
-  return `app submitted - decision in ${Math.round(Math.abs(today.getTime() - decisionDate.getTime()) / (24 * 60 * 60 * 1000))} days`
+  if (!app.submitted) return `Due in ${Math.round(Math.abs(today.getTime() - dueDate.getTime()) / (24 * 60 * 60 * 1000))} days`
+  return `App submitted - decision in ${Math.round(Math.abs(today.getTime() - decisionDate.getTime()) / (24 * 60 * 60 * 1000))} days`
 }
 
 const LeftCollegeEntry = ({ children, college, allcolleges, style, app, expanded, ...props }) => {
@@ -45,8 +45,8 @@ const LeftCollegeBar = ({ colleges, allcolleges, goToCollege, expanded, active, 
           key={`appSelect${college.id.toString()}`}
           onClick={e => goToCollege(college.id.toString())}>
           {(allcolleges[college.id.toString()].name.split(' ')[1] === 'University' || allcolleges[college.id.toString()].name.split(' ')[1] === 'College')
-            ? allcolleges[college.id.toString()].name.split(' ')[0].toLowerCase()
-            : allcolleges[college.id.toString()].name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
+            ? allcolleges[college.id.toString()].name.split(' ')[0]
+            : allcolleges[college.id.toString()].name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toUpperCase()}
         </LeftCollegeEntry>
       ))}
       {colleges.filter(c => allcolleges[c]).filter(c => !Object.keys(apps).includes(c)).map(college => (
@@ -59,8 +59,8 @@ const LeftCollegeBar = ({ colleges, allcolleges, goToCollege, expanded, active, 
           key={`appSelect${college}`}
           onClick={e => goToCollege(college)}>
           {(allcolleges[college].name.split(' ')[1] === 'University' || allcolleges[college].name.split(' ')[1] === 'College')
-            ? allcolleges[college].name.split(' ')[0].toLowerCase()
-            : allcolleges[college].name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toLowerCase()}
+            ? allcolleges[college].name.split(' ')[0]
+            : allcolleges[college].name.split(' ').filter(word => !filterWords.includes(word)).map(word => word.slice(0, 1)).join('').toUpperCase()}
         </LeftCollegeEntry>
       ))}
     </div>
@@ -68,14 +68,13 @@ const LeftCollegeBar = ({ colleges, allcolleges, goToCollege, expanded, active, 
 }
 
 export const Essays = ({ mycolleges, allcolleges, goToCollege, fetchAllMyColleges, children, params, apps }) => {
-  fetchAllMyColleges()
   return (
     <div className={styles.root}>
       <h2 className={styles.lead}>
-        <StressText content={children ? allcolleges[params.id] ? allcolleges[params.id].name.toLowerCase() : 'one sec' : 'putting hand to keyboard'} />
+        <StressText content={children ? allcolleges[params.id] ? allcolleges[params.id].name : 'Loading...' : 'Getting down to business.'} />
       </h2>
       <h3 className={styles.smallLead} style={{ height: children ? '0' : null }}>
-        now that you've picked out some colleges to apply to, let's get started
+        Now that you've picked out some colleges to apply to, let's get started
         on your applications.
       </h3>
       <LeftCollegeBar colleges={mycolleges} allcolleges={allcolleges} goToCollege={goToCollege} expanded={!children} active={params.id} apps={apps} />
