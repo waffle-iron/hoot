@@ -21,7 +21,6 @@ import { resume } from './actions/login'
 import * as collegesActions from './actions/colleges'
 
 require('./globals.scss')
-require('font-awesome-webpack')
 
 // wrapper for login dialog
 const Login = (signup) => ({ ...props }) => {
