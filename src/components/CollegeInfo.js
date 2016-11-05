@@ -188,13 +188,16 @@ const CostSection = ({ cost }) => {
   )
 }
 
-export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeCollege, isAdded, sat, act }) => {
+export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeCollege, isAdded, sat, act, images }) => {
+  const pbgi = college ? college.photos ? Object.keys(college.photos).map(k => college.photos[k].storage) : null : null
+  const bgImageRef = pbgi ? `campus-photos/${id}/${pbgi[Math.floor(Math.random() * pbgi.length)]}` : null
+  const bg = images[bgImageRef]
   return (
     <Loading finished={college}>
       <div>
-        <div className={styles.header} style={{ backgroundColor: college.colorPrimary }} />
-        {/* TODO: Render header photo for college if present */}
-        <div style={{ position: 'relative', zIndex: 5 }}>
+        <div className={styles.header} style={{ position: 'relative', zIndex: 5 }}>
+          <div className={styles.headerBg} style={{ backgroundColor: college.colorPrimary }} />
+          <div className={styles.headerBg} style={{ opacity: bg ? 1 : 0, backgroundImage: `url(${bg})` }} />
           <h2 className={styles.lead}>
             <StressText content={college.name} />
           </h2>
@@ -270,7 +273,8 @@ function mapStateToProps (state, ownProps) {
     college: state.colleges[ownProps.params.id],
     isAdded: state.mycolleges.list.includes(ownProps.params.id),
     sat: state.profile.items.satComposite,
-    act: state.profile.items.actComposite
+    act: state.profile.items.actComposite,
+    images: state.images
   }
 }
 

@@ -67,5 +67,6 @@ export function colleges (state = {}, action) {
 export function images (state = {}, action) {
   switch (action.type) {
     case imagesActions.LOAD_IMAGE: return { ...state, ...action.payload }
+    default: return state
   }
 }

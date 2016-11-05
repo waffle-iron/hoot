@@ -17,9 +17,11 @@ export const fetchCollege = (id, cb) => (dispatch, getState) => {
   database.ref(`colleges/${id}`).once('value').then(s => {
     dispatch({ type: actions.FINISH_FETCH_COLLEGE, payload: { [id]: s.val() } })
     // fetch the images for the college
-    Object.keys(s.val().photos).map(k => s.val().photos[k]).forEach(p => {
-      dispatch(loadImage(`campus-pictures/${id}`, p.storage))
-    })
+    if (s.val().photos) {
+      Object.keys(s.val().photos).map(k => s.val().photos[k]).forEach(p => {
+        dispatch(loadImage(`campus-photos/${id}/${p.storage}`))
+      })
+    }
     if (cb) cb(s)
   }).catch(e => {
     throw e

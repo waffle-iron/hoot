@@ -27,11 +27,29 @@
 }
 
 .header {
+  position: relative;
+  z-index: 5;
+
+  h2, a {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.headerBg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 400px;
+  top: -160px;
+  left: -20vw;
+  width: 120vw;
+  height: 225%;
   z-index: 1;
   background-color: #000;
+  transition: opacity 0.2s ease-in;
+  background-size: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .headerBg {
+    left: -40px;
+  }
 }
