@@ -35,12 +35,17 @@ if (auth.currentUser) {
   store.dispatch(resume())
 }
 
-render(
-  <AppContainer>
-    <App store={store} history={history} />
-  </AppContainer>,
-  mount
-)
+process.env.NODE_ENV === 'production'
+  ? render(
+    <App store={store} history={history} />,
+    mount
+    )
+  : render(
+    <AppContainer>
+      <App store={store} history={history} />
+    </AppContainer>,
+    mount
+    )
 
 if (module.hot) {
   module.hot.accept('./App', () => {

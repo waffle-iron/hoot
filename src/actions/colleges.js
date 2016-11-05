@@ -1,6 +1,7 @@
 import prefix from '../prefix'
 import { database } from '../firebase'
 import colorsActions from './colors'
+import { loadImage } from './images'
 
 const actions = prefix('colleges')([
   'BEGIN_FETCH_COLLEGE',
@@ -14,6 +15,10 @@ export const fetchCollege = (id, cb) => (dispatch, getState) => {
   dispatch({ type: actions.BEGIN_FETCH_COLLEGE, payload: id })
   database.ref(`colleges/${id}`).once('value').then(s => {
     dispatch({ type: actions.FINISH_FETCH_COLLEGE, payload: { [id]: s.val() } })
+    // fetch the images for the college
+    Object.keys(s.val().photos).map(k => s.val().photos[k]).forEach(p => {
+      dispatch(loadImage(`campus-pictures/${id}`, p.storage))
+    })
     if (cb) cb(s)
   }).catch(e => {
     throw e

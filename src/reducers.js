@@ -4,6 +4,7 @@ import mycollegesActions from './actions/mycolleges'
 import profileActions from './actions/profile'
 import appsActions from './actions/apps'
 import collegesActions from './actions/colleges'
+import imagesActions from './actions/images'
 
 export function login (state = { loggedIn: false, attemptingLogin: false, error: null, institute: null }, action) {
   switch (action.type) {
@@ -60,5 +61,11 @@ export function colleges (state = {}, action) {
     case collegesActions.BEGIN_FETCH_COLLEGE: return { ...state, [action.payload]: false }
     case collegesActions.FINISH_FETCH_COLLEGE: return { ...state, ...action.payload }
     default: return state
+  }
+}
+
+export function images (state = {}, action) {
+  switch (action.type) {
+    case imagesActions.LOAD_IMAGE: return { ...state, ...action.payload }
   }
 }
