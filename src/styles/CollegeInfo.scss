@@ -41,15 +41,21 @@
   top: -160px;
   left: -20vw;
   width: 120vw;
-  height: 225%;
+  height: calc(100% + 200px);
   z-index: 1;
   background-color: #000;
   transition: opacity 0.2s ease-in;
   background-size: cover;
+  background-position: center;
 }
 
 @media screen and (max-width: 768px) {
   .headerBg {
     left: -40px;
+  }
+
+  .column {
+    width: 100%;
+    margin: 0;
   }
 }

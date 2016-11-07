@@ -229,7 +229,7 @@ export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeColle
           {college.percentFinancialAid ? <FinancialAidSection fa={college.percentFinancialAid} avg={college.averageGrantAid} /> : null}
           {college.forbesRanking ? <RankingSection ranking={college.forbesRanking} source='forbes' /> : null}
           {college.usnawrRanking ? <RankingSection ranking={college.usnawrRanking} source='us news and world report' /> : null}
-          {college.theRanking ? <RankingSection ranking={college.forbesRanking} source='times higher education' /> : null}
+          {college.theRanking ? <RankingSection ranking={college.theRanking} source='times higher education' /> : null}
           {/* TODO ethnicity section? */}
         </div>
         <h2 className={styles.lead}>Getting In</h2>
