@@ -22,9 +22,11 @@ export const LoginDialog = ({ login, loginError, isSignup, signup }) => {
         <button type='submit'>submit</button>
       </form>
       { loginError
-        ? <h2 style={{ marginTop: '20px', color: 'red' }}>
+        ? (
+          <h2 style={{ marginTop: '20px', color: 'red' }}>
             {loginError.toString()}
           </h2>
+          )
         : null
       }
       <h3>institutions: to create an account for your college, please email kyle@hoot.rocks for more information.</h3>

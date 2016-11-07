@@ -59,7 +59,7 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
     <div className={styles.questions}>
       <Button onClick={() => { removeAppPlan(id) }} style={{ marginRight: '1em', marginTop: '0' }}>Change decision plan</Button>
       <Button to={`/college/${id}`} style={{ marginTop: '0' }}>View college page</Button><br />
-      <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '1.75em' }} />
+      <div className={styles.line} style={{ marginTop: '1.75em' }} />
       {
         college.requiresCommonEssay ? (
           <div>
@@ -68,7 +68,7 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
               {commonEssay.prompt.map(p => <li>{p}</li>)}
             </ul>
             <textarea />
-            <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '0.5em' }} />
+            <div className={styles.line} />
           </div>
         ) : null
       }
@@ -82,7 +82,7 @@ export const Application = ({ app, addApp, removeApp, removeAppPlan, params, set
                 <textarea />
               </div>
             ))}
-            <div style={{ width: '100%', height: '5px', backgroundColor: 'black', marginTop: '0.5em' }} />
+            <div className={styles.line} />
           </div>
         ) : null
       }

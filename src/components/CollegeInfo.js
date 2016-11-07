@@ -54,87 +54,44 @@ const constructAppString = (college) => {
   }
 }
 
-const OutOfTenGraph = ({ num, icon, iconEmpty, style }) => {
+const Histograph = ({ num, icon, style }) => {
   return (
-    <div
-      style={{
-        fontSize: '3em',
-        display: 'inline-block',
-        ...style
-      }}>
+    <div style={style} className={styles.histograph}>
       {
         (new Array(num))
           .fill(null)
           .map((i, x) => (
             <i
               key={`${icon}${x}`}
-              className={`fa fa-${icon}`}
-              style={{ color: 'black', paddingRight: '5px' }} />
+              className={`fa fa-${icon}`} />
           ))
       }
-      {iconEmpty
-        ? (
-          new Array(10 - num))
-            .fill(null)
-            .map((i, x) => (
-              <i
-                key={`${icon}-${x}`}
-                className={`fa fa-${iconEmpty}`}
-                style={{ color: 'black', paddingRight: '5px' }} />
-            ))
-        : null}
     </div>
   )
 }
 
 const PercentileBar = ({ max, left, right, marker }) => {
   return (
-    <div>
-      <div
-        style={{
-          position: 'relative',
-          height: '16px',
-          width: '100%'
-        }}>
+    <div className={styles.percentileBar}>
+      <div className={styles.top}>
         { marker
           ? <div
+            className={styles.arrow}
             style={{
-              position: 'absolute',
-              top: '6px',
-              height: '16px',
-              width: '16px',
               left: `calc(${Math.round(marker / max * 100)}% - 4px)`,
               background: `url(${downArrow}) 0% / 100% no-repeat #fff` }} />
             : null }
       </div>
-      <div
-        style={{
-          width: '100%',
-          height: '40px',
-          backgroundColor: 'white',
-          position: 'relative',
-          border: '5px solid black',
-          margin: '10px 0',
-          overflow: 'hidden' }}>
+      <div className={styles.bar}>
         <div
+          className={styles.filledArea}
           style={{
-            position: 'absolute',
-            top: '0',
-            height: '100%',
             left: `${left ? Math.round(left / max * 100) : 0}%`,
-            width: `${Math.round((right - left) / max * 100)}%`,
-            backgroundColor: 'black' }} />
+            width: `${Math.round((right - left) / max * 100)}%` }} />
         { marker
           ? <div
-            style={{
-              position: 'absolute',
-              top: '0',
-              height: '100%',
-              left: `${Math.round(marker / max * 100)}%`,
-              width: '15px',
-              borderLeft: '5px solid black',
-              borderRight: '5px solid black',
-              backgroundColor: 'white' }} />
+            className={styles.marker}
+            style={{ left: `${Math.round(marker / max * 100)}%` }} />
           : null }
       </div>
     </div>
@@ -156,7 +113,7 @@ const FinancialAidSection = ({ fa, avg }) => {
   return (
     <div className={styles.section}>
       <h3 className={styles.content}>financial aid</h3>
-      <OutOfTenGraph num={Math.round(fa / 10)} icon='money' style={{ fontSize: '2em' }} />
+      <Histograph num={Math.round(fa / 10)} icon='money' style={{ fontSize: '2em' }} />
       <h3>
         {fa}% of students get financial aid
         { avg ? `, who get an average of $${avg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} per year.` : null}
@@ -169,7 +126,7 @@ const PopulationSection = ({ total, undergrad }) => {
   return (
     <div className={styles.section}>
       <h3 className={styles.content}>total population</h3>
-      <OutOfTenGraph num={Math.round(total / 2500)} icon='user' />
+      <Histograph num={Math.round(total / 2500)} icon='user' />
       <h3>
         {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} students
         {undergrad ? `, ${undergrad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} of which are are undergraduate.` : null}
@@ -182,7 +139,7 @@ const CostSection = ({ cost }) => {
   return (
     <div className={styles.section}>
       <h3 className={styles.content}>cost</h3>
-      <OutOfTenGraph num={Math.round(cost / 7000)} icon='usd' />
+      <Histograph num={Math.round(cost / 7000)} icon='usd' />
       <h3>${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} per year</h3>
     </div>
   )
@@ -195,7 +152,7 @@ export const CollegeInfo = ({ id, fetchCollege, college, addCollege, removeColle
   return (
     <Loading finished={college}>
       <div>
-        <div className={styles.header} style={{ position: 'relative', zIndex: 5 }}>
+        <div className={styles.header}>
           <div className={styles.headerBg} style={{ backgroundColor: college.colorPrimary }} />
           <div className={styles.headerBg} style={{ opacity: bg ? 1 : 0, backgroundImage: `url(${bg})` }} />
           <h2 className={styles.lead}>

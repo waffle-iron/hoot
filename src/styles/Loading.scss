@@ -15,3 +15,20 @@
 .leaveActive {
   opacity: 0;
 }
+
+.outerWrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+
+  .innerWrapper {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
