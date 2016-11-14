@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/hootrocks/hoot.png?label=ready&title=Ready)](https://waffle.io/hootrocks/hoot)
 # hoot
 [![Known Vulnerabilities](https://snyk.io/test/github/vulpino/hoot/7114b645e1cbd83752fb5d43f00b8c8634435a85/badge.svg)](https://snyk.io/test/github/vulpino/hoot/7114b645e1cbd83752fb5d43f00b8c8634435a85)
 [![Join the chat at https://gitter.im/hootrocks](https://badges.gitter.im/hootrocks.svg)](https://gitter.im/hootrocks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
